@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS user (
 							
 CREATE TABLE IF NOT EXISTS link (
                                 user_id         VARCHAR(45)               NOT NULL,
-                                short_link      VARCHAR(8)                NOT NULL,
+                                short_link      VARCHAR(8) PRIMARY KEY    NOT NULL,
                                 long_link       VARCHAR(500)              NOT NULL,
                                 data_create     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 active_status   INT   DEFAULT 0,
