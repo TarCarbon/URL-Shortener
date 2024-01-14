@@ -7,6 +7,7 @@ import java.util.List;
 public interface UrlService {
     List<UrlDto> listAll();
     UrlDto add(UrlDto url);
-    void deleteById(String id);
+    void deleteByShortUrl(String id);
     void update(UrlDto url);
+    UrlDto getByShortUrl(String shortUrl);
 }
