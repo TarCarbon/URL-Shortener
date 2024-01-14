@@ -1,15 +1,17 @@
-CREATE TABLE IF NOT EXISTS user (
-				user_name VARCHAR(45) CHECK (LENGTH(user_name) >=2) NOT NULL,
-				email VARCHAR(45) PRIMARY KEY NOT NULL,
-				user_password VARCHAR(50) NOT NULL
-				);
-							
-CREATE TABLE IF NOT EXISTS link (
-                                short_link      VARCHAR(8) PRIMARY KEY    NOT NULL,
-                                user_id         VARCHAR(45)               NOT NULL,
-                                long_link       VARCHAR(500)              NOT NULL,
-                                data_create     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                active_status   TINYINT   DEFAULT 1,
-                                count_of_clicks INT       DEFAULT 0,
-                                FOREIGN KEY (user_id) REFERENCES user(email)
-                                );
+CREATE TABLE IF NOT EXISTS users (
+    id       BIGSERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE CHECK (LENGTH(username) >= 2),
+    password VARCHAR(100) NOT NULL,
+    role     VARCHAR(20)  NOT NULL DEFAULT 'USER'
+);
+
+CREATE TABLE IF NOT EXISTS urls (
+    short_url       VARCHAR(8) PRIMARY KEY CHECK (length(short_url) = 8),
+    url             VARCHAR(255) NOT NULL,
+    description     VARCHAR(1000),
+    user_id         BIGSERIAL    NOT NULL,
+    created_date    TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expiration_date TIMESTAMP  NOT NULL,
+    visit_count     INT        NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
