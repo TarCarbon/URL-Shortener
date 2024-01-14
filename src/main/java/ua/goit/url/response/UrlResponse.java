@@ -1,13 +1,11 @@
-package ua.goit.url.dto;
+package ua.goit.url.response;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import ua.goit.user.UserEntity;
 
 import java.time.LocalDateTime;
-
 @Data
-public class UrlDto {
+public class UrlResponse {
     private static final int VALID_DAYS = 30;
     private String shortUrl;
     private String url;
