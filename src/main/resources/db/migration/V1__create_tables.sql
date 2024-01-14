@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS user (
-							    user_name VARCHAR(45) CHECK (LENGTH(user_name) >=2) NOT NULL,
-								email VARCHAR(45) PRIMARY KEY NOT NULL,
-							    user_password VARCHAR(50) NOT NULL
-								);
+							                  user_name VARCHAR(45) CHECK (LENGTH(user_name) >=2) NOT NULL,
+								                email VARCHAR(45) PRIMARY KEY NOT NULL,
+							                  user_password VARCHAR(50) NOT NULL
+								                );
 							
 CREATE TABLE IF NOT EXISTS link (
                                 short_link      VARCHAR(8) PRIMARY KEY    NOT NULL,
