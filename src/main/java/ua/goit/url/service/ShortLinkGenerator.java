@@ -9,18 +9,18 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Service
 public class ShortLinkGenerator {
-    private static final Random random = new SecureRandom();
-    private final LinkUnique linkUnique;
+
+    private final UrlServiceImpl urlService;
 
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int LINK_LENGTH = 8;
 
     public String generateShortLink() {
-
+        Random random = new SecureRandom();
         String shortLink;
 
         do {
-            StringBuilder linkBuilder = new StringBuilder("http://localhost:9999/");
+            StringBuilder linkBuilder = new StringBuilder();
             for (int i = 0; i < LINK_LENGTH; i++) {
                 int randomIndex = random.nextInt(CHARACTERS.length());
                 char randomChar = CHARACTERS.charAt(randomIndex);
@@ -28,7 +28,7 @@ public class ShortLinkGenerator {
             }
 
             shortLink = linkBuilder.toString();
-        } while (linkUnique.isLinkUnique(shortLink));
+        } while (urlService.isLinkUnique(shortLink));
 
         return shortLink;
     }
