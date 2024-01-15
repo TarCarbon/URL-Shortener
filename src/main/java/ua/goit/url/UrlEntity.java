@@ -15,7 +15,8 @@ public class UrlEntity {
     private static final int VALID_DAYS = 30;
 
     @Id
-    private BigDecimal id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column
     private String shortUrl;

@@ -52,38 +52,7 @@ public class UrlMapper {
         return dto;
     }
 
-    public UrlResponse toUrlResponse(UrlDto dto) {
-        UrlResponse response = new UrlResponse();
-        response.setId(dto.getId());
-        response.setShortUrl(dto.getShortUrl());
-        response.setUrl(dto.getUrl());
-        response.setDescription(dto.getDescription());
-        response.setUser(dto.getUser());
-        response.setCreatedDate(dto.getCreatedDate());
-        response.setExpirationDate(dto.getExpirationDate());
-        response.setVisitCount(dto.getVisitCount());
-        return response;
-    }
-
-    public List<UrlResponse> toUrlResponses(Collection<UrlDto> dtos){
-        return dtos.stream()
-                .map(this::toUrlResponse)
-                .collect(Collectors.toList());
-    }
-
-
-    public UrlDto toUrlDto(CreateUrlRequest request) {
-        UrlDto dto = new UrlDto();
-        dto.setId(request.getId());
-        dto.setShortUrl(request.getShortUrl());
-        dto.setUrl(request.getUrl());
-        dto.setDescription(request.getDescription());
-        dto.setUser(request.getUser());
-        dto.setVisitCount(request.getVisitCount());
-        return dto;
-    }
-
-    public UrlDto toUrlDto(BigDecimal id, UpdateUrlRequest request) {
+    public UrlDto toUrlDto(Long id, UpdateUrlRequest request) {
         UrlDto dto = new UrlDto();
         dto.setId(id);
         dto.setShortUrl(request.getShortUrl());

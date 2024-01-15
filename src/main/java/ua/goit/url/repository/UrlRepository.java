@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import ua.goit.url.UrlEntity;
 
 @Repository
-public interface UrlRepository extends JpaRepository<UrlEntity, String> {
+public interface UrlRepository extends JpaRepository<UrlEntity, Long> {
 
 }

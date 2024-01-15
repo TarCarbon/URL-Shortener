@@ -16,44 +16,30 @@ import ua.goit.url.service.UrlService;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Validated
-@Controller
+@RestController
 @RequestMapping("/V1/urls")
 public class UrlController {
     @Autowired
     private UrlService urlService;
-    @Autowired
-    private UrlMapper urlMapper;
 
     @GetMapping("/list")
-    public ResponseEntity<List<UrlResponse>> urlList() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(urlMapper.toUrlResponses(urlService.listAll()));
+    public List<UrlDto> urlList() {
+        return urlService.listAll();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UrlResponse> createUrl(
-            @RequestBody CreateUrlRequest request) {
-        UrlDto dto = urlMapper.toUrlDto(request);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(urlMapper.toUrlResponse(urlService.add(dto)));
+    public UrlDto createUrl(@RequestBody CreateUrlRequest request) {
+        return urlService.add(request);
     }
 
     @PutMapping("/{id}}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateUrl(
-            @PathVariable("id") BigDecimal id,
-            @RequestBody UpdateUrlRequest request
-            ) {
-        UrlDto dto = urlMapper.toUrlDto(id, request);
-        urlService.update(dto);
+    public void updateUrl(@PathVariable("id") Long id,
+                          @RequestBody UpdateUrlRequest request) {
+        urlService.update(id, request);
     }
 
-    @DeleteMapping("/delete")
-    @RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
-    public void deleteUrlById(@PathVariable("id") BigDecimal id){
+    @DeleteMapping("/delete/{id}}")
+        public void deleteUrlById(@PathVariable("id") Long id) {
         urlService.deleteById(id);
     }
 }
