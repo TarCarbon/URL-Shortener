@@ -51,7 +51,7 @@ public class UrlServiceImpl implements UrlService{
 
 
     public boolean isLinkUnique(String link) {
-        return listAll().stream().noneMatch(urlEntity -> urlEntity.getShortUrl().equals(link));
+        return listAll().stream().noneMatch(urlDto -> urlDto.getShortUrl().equals(link));
     }
 
     //before passing to the method, check and if necessary add to the originalUrl https://

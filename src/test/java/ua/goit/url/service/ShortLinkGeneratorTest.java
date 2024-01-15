@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import ua.goit.url.UrlEntity;
+import ua.goit.url.dto.UrlDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,13 +19,9 @@ public class ShortLinkGeneratorTest {
         UrlServiceImpl urlService = Mockito.mock(UrlServiceImpl.class);
 
 
-        Mockito.when(urlService.getAll()).thenReturn(
+        Mockito.when(urlService.listAll()).thenReturn(
                 List.of(
-                        new UrlEntity("abc123", "http://example.com", "Description", null, LocalDateTime.now(), LocalDateTime.now().plusDays(30), 0),
-                        new UrlEntity("xyz456", "http://example2.com", "Description2", null, LocalDateTime.now(), LocalDateTime.now().plusDays(30), 0),
-                        new UrlEntity("utyt890", "http://example3.com", "Description3", null, LocalDateTime.now(), LocalDateTime.now().plusDays(30), 0),
-                        new UrlEntity("Nblwij", "http://example4.com", "Description4", null, LocalDateTime.now(), LocalDateTime.now().plusDays(30), 0),
-                        new UrlEntity("HdL2w1", "http://example5.com", "Description5", null, LocalDateTime.now(), LocalDateTime.now().plusDays(30), 0)
+
                 )
         );
 
@@ -34,7 +31,7 @@ public class ShortLinkGeneratorTest {
 
         assertTrue(generatedLink.startsWith(""));
 
-        assertFalse(urlService.getAll().stream().anyMatch(urlEntity -> urlEntity.getShortUrl().equals(generatedLink)));
+        assertFalse(urlService.listAll().stream().anyMatch(urlDto -> urlDto.getShortUrl().equals(generatedLink)));
     }
 }
 
