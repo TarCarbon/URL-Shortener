@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "urls")
+@AllArgsConstructor
 public class UrlEntity {
+
     private static final int VALID_DAYS = 30;
 
     @Id
