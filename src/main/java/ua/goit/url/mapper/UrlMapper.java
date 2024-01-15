@@ -3,8 +3,11 @@ package ua.goit.url.mapper;
 import org.springframework.stereotype.Component;
 import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
+import ua.goit.url.request.CreateUrlRequest;
+import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.response.UrlResponse;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +22,7 @@ public class UrlMapper {
 
     public UrlEntity toUrlEntity(UrlDto dto) {
         UrlEntity entity = new UrlEntity();
+        entity.setId(dto.getId());
         entity.setShortUrl(dto.getShortUrl());
         entity.setUrl(dto.getUrl());
         entity.setDescription(dto.getDescription());
@@ -37,6 +41,7 @@ public class UrlMapper {
 
     public UrlDto toUrlDto(UrlEntity entity) {
         UrlDto dto = new UrlDto();
+        dto.setId(entity.getId());
         dto.setShortUrl(entity.getShortUrl());
         dto.setUrl(entity.getUrl());
         dto.setDescription(entity.getDescription());
@@ -49,6 +54,7 @@ public class UrlMapper {
 
     public UrlResponse toUrlResponse(UrlDto dto) {
         UrlResponse response = new UrlResponse();
+        response.setId(dto.getId());
         response.setShortUrl(dto.getShortUrl());
         response.setUrl(dto.getUrl());
         response.setDescription(dto.getDescription());
@@ -65,5 +71,25 @@ public class UrlMapper {
                 .collect(Collectors.toList());
     }
 
+
+    public UrlDto toUrlDto(CreateUrlRequest request) {
+        UrlDto dto = new UrlDto();
+        dto.setId(request.getId());
+        dto.setShortUrl(request.getShortUrl());
+        dto.setUrl(request.getUrl());
+        dto.setDescription(request.getDescription());
+        dto.setUser(request.getUser());
+        dto.setVisitCount(request.getVisitCount());
+        return dto;
+    }
+
+    public UrlDto toUrlDto(BigDecimal id, UpdateUrlRequest request) {
+        UrlDto dto = new UrlDto();
+        dto.setId(id);
+        dto.setShortUrl(request.getShortUrl());
+        dto.setDescription(request.getDescription());
+        dto.setVisitCount(0);
+        return dto;
+    }
 
 }

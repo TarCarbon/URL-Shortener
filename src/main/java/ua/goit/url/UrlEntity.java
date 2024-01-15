@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import ua.goit.user.UserEntity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,6 +15,9 @@ public class UrlEntity {
     private static final int VALID_DAYS = 30;
 
     @Id
+    private BigDecimal id;
+
+    @Column
     private String shortUrl;
 
     @Column(nullable = false)

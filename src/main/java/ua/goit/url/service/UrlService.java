@@ -2,12 +2,13 @@ package ua.goit.url.service;
 
 import ua.goit.url.dto.UrlDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UrlService {
     List<UrlDto> listAll();
     UrlDto add(UrlDto url);
-    void deleteByShortUrl(String id);
+    void deleteById(BigDecimal id);
     void update(UrlDto url);
-    UrlDto getByShortUrl(String shortUrl);
+    UrlDto getById(BigDecimal id);
 }

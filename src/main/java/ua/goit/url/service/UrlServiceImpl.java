@@ -7,6 +7,7 @@ import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
 import ua.goit.url.repository.UrlRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,9 +32,9 @@ public class UrlServiceImpl implements UrlService{
     }
 
     @Override
-    public void deleteByShortUrl(String shortUrl) {
-        getByShortUrl(shortUrl);
-        urlRepository.deleteById(shortUrl);
+    public void deleteById(BigDecimal id) {
+        getById(id);
+        urlRepository.deleteById(String.valueOf(id));
     }
 
     @Override
@@ -41,13 +42,13 @@ public class UrlServiceImpl implements UrlService{
         if(Objects.isNull(url.getShortUrl())){
             throw new RuntimeException("Not found");
         }
-        getByShortUrl(url.getShortUrl());
+        getById(url.getId());
         urlRepository.save(urlMapper.toUrlEntity(url));
     }
 
     @Override
-    public UrlDto getByShortUrl(String shortUrl) {
-        Optional<UrlEntity> optionalUrl = urlRepository.findById(shortUrl);
+    public UrlDto getById(BigDecimal id) {
+        Optional<UrlEntity> optionalUrl = urlRepository.findById(String.valueOf(id));
         if(optionalUrl.isPresent()) {
             return urlMapper.toUrlDto(optionalUrl.get());
         } else {
