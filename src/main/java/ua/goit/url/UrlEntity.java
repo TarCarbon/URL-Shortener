@@ -5,27 +5,22 @@ import jakarta.persistence.*;
 import lombok.Data;
 import ua.goit.user.UserEntity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "urls")
+@AllArgsConstructor
 public class UrlEntity {
-
-    public UrlEntity(String shortUrl, String url, String description, UserEntity user, LocalDateTime createdDate
-            , LocalDateTime expirationDate, int visitCount) {
-        this.shortUrl = shortUrl;
-        this.url = url;
-        this.description = description;
-        this.user = user;
-        this.createdDate = createdDate;
-        this.expirationDate = expirationDate;
-        this.visitCount = visitCount;
-    }
 
     private static final int VALID_DAYS = 30;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
     private String shortUrl;
 
     @Column(nullable = false)
