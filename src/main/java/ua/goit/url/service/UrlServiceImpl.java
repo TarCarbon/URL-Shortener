@@ -1,27 +1,23 @@
 package ua.goit.url.service;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-import lombok.RequiredArgsConstructor;
+public class UrlServiceImpl implements UrlService{
 
-import org.springframework.stereotype.Service;
-import ua.goit.url.UrlEntity;
-import ua.goit.url.repository.UrlRepository;
+    //before passing to the method, check and if necessary add to the originalUrl https://
+    private boolean isUrlAccessible(String originalUrl) {
+        int responseCode;
 
-
-import java.util.List;
-
-
-@RequiredArgsConstructor
-@Service
-public class UrlServiceImpl implements UrlService {
-
-    private final UrlRepository repository;
-
-    public List<UrlEntity> getAll() {
-        return repository.findAll();
-    }
-
-    public boolean isLinkUnique(String link) {
-        return getAll().stream().noneMatch(urlEntity -> urlEntity.getShortUrl().equals(link));
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(originalUrl).openConnection();
+            connection.setRequestMethod("HEAD");
+            responseCode = connection.getResponseCode();
+            connection.disconnect();
+        } catch (IOException e) {
+            responseCode = HttpURLConnection.HTTP_BAD_REQUEST;
+        }
+        return responseCode >= 200 && responseCode < 300;
     }
 }
