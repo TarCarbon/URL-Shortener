@@ -1,8 +1,14 @@
 package ua.goit.url.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import ua.goit.url.UrlEntity;
+import ua.goit.url.repository.UrlRepository;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
