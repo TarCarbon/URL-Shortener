@@ -2,6 +2,7 @@ package ua.goit.url.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ua.goit.url.UrlEntity;
 import ua.goit.url.repository.UrlRepository;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -11,7 +12,10 @@ import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
+import ua.goit.user.UserEntity;
+
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -36,7 +40,17 @@ public class UrlServiceImpl implements UrlService{
 
     @Override
     public void deleteById(Long id) {
-        return;
+        if (!urlRepository.existsById(id)) {
+            throw new IllegalArgumentException("Url with id " + id + " not found");
+        } else {
+            Optional<UrlEntity> optionalUrl = urlRepository.findById(id);
+            if (optionalUrl.isPresent()) {
+                UrlEntity urlToDelete = optionalUrl.get();
+                UserEntity user = urlToDelete.getUser();
+                user.getUrls().remove(urlToDelete);
+            }
+            urlRepository.deleteById(id);
+        }
     }
 
     @Override
