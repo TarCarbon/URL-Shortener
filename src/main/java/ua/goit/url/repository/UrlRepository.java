@@ -10,7 +10,4 @@ import java.util.List;
 
 @Repository
 public interface UrlRepository extends JpaRepository<UrlEntity, String> {
-    @Query(nativeQuery = true, value =
-            "SELECT shortUrl FROM urls")
-    List<String> allShortUrls();
 }
