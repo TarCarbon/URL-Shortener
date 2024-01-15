@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 
 @Data
 public class UrlDto {
-    private BigDecimal id;
+    private Long id;
     private String shortUrl;
     private String url;
     private String description;
-    private UserEntity user;
+    private String username;
     private LocalDateTime createdDate;
     private LocalDateTime expirationDate;
     private int visitCount;

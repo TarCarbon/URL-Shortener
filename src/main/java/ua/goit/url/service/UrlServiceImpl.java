@@ -6,12 +6,11 @@ import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
 import ua.goit.url.repository.UrlRepository;
+import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
 
 @Service
 public class UrlServiceImpl implements UrlService{
@@ -27,32 +26,24 @@ public class UrlServiceImpl implements UrlService{
     }
 
     @Override
-    public UrlDto add(UrlDto url) {
+    public UrlDto add(CreateUrlRequest url) {
         return null;
     }
 
     @Override
-    public void deleteById(BigDecimal id) {
-        getById(id);
-        urlRepository.deleteById(String.valueOf(id));
+    public void deleteById(Long id) {
+        return;
     }
 
     @Override
     public void update(Long id, UpdateUrlRequest url) {
-        if(Objects.isNull(url.getShortUrl())){
-            throw new RuntimeException("Not found");
-        }
-        getById(url.getId());
-        urlRepository.save(urlMapper.toUrlEntity(url));
+
     }
 
     @Override
     public UrlDto getById(Long id) {
-        Optional<UrlEntity> optionalUrl = urlRepository.findById(String.valueOf(id));
-        if(optionalUrl.isPresent()) {
-            return urlMapper.toUrlDto(optionalUrl.get());
-        } else {
-            throw new RuntimeException("Url is not present");
-        }
+        return null;
     }
+
+
 }
