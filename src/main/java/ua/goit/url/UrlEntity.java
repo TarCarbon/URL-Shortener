@@ -2,10 +2,10 @@ package ua.goit.url;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import ua.goit.user.UserEntity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
