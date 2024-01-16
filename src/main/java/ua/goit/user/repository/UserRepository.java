@@ -6,5 +6,5 @@ import ua.goit.user.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-
+    Boolean existsByUsername(String username);
 }
