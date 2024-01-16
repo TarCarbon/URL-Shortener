@@ -1,7 +1,6 @@
 package ua.goit.url.service;
 
 import ua.goit.url.dto.UrlDto;
-import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 public interface UrlService {
     List<UrlDto> listAll();
 
-    UrlDto add(CreateUrlRequest url);
+    UrlDto createUrl(UrlDto urlDto);
 
     void deleteById(Long id);
 

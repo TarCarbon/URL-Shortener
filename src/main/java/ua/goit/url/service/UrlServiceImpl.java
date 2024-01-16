@@ -2,6 +2,7 @@ package ua.goit.url.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.goit.url.UrlEntity;
 import ua.goit.url.repository.UrlRepository;
 import java.io.IOException;
@@ -10,7 +11,6 @@ import java.net.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
-import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.user.UserEntity;
 
@@ -34,8 +34,11 @@ public class UrlServiceImpl implements UrlService{
     }
 
     @Override
-    public UrlDto add(CreateUrlRequest url) {
-        return null;
+    @Transactional
+    public UrlDto createUrl(UrlDto dto) {
+        UrlEntity entity = urlMapper.toUrlEntity(dto);
+//        entity.setUser(new UserEntity(dto.getUsername()));
+        return urlMapper.toUrlDto(urlRepository.save(entity));
     }
 
     @Override
