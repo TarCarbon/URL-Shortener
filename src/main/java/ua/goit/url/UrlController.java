@@ -23,4 +23,9 @@ public class UrlController {
     public void deleteById(@PathVariable("id") Long id) {
         urlService.deleteById(id);
     }
+
+    @GetMapping("/list/active")
+    public List<UrlDto> ActiveUrls(){return  urlService.getActiveUrls();}
+    @GetMapping("/list/inactive")
+    public List<UrlDto> InactiveUrls(){return  urlService.getInactiveUrls();}
 }

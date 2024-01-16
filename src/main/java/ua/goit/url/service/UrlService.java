@@ -16,4 +16,7 @@ public interface UrlService {
     void update(Long id, UpdateUrlRequest url);
 
     UrlDto getById(Long id);
+
+    List<UrlDto> getActiveUrls();
+    List<UrlDto> getInactiveUrls();
 }

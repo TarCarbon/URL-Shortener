@@ -14,8 +14,10 @@ import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.user.UserEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -61,6 +63,26 @@ public class UrlServiceImpl implements UrlService{
     @Override
     public UrlDto getById(Long id) {
         return null;
+    }
+
+    @Override
+    public List<UrlDto> getActiveUrls() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return urlMapper.toUrlDtos(
+                urlRepository.findAll().stream()
+                        .filter(urlEntity -> urlEntity.getExpirationDate().isAfter(currentDateTime))
+                        .collect(Collectors.toList())
+        );
+    }
+
+    @Override
+    public List<UrlDto> getInactiveUrls() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return urlMapper.toUrlDtos(
+                urlRepository.findAll().stream()
+                        .filter(urlEntity -> urlEntity.getExpirationDate().isBefore(currentDateTime))
+                        .collect(Collectors.toList())
+        );
     }
 
 
