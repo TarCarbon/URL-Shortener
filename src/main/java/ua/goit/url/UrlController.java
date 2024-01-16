@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
+import ua.goit.url.service.exceptions.AlreadyExistUrlException;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class UrlController {
 
     @PostMapping("/{id}/edit")
     public void updateUrl(@PathVariable("id") Long id,
-                          @RequestBody UpdateUrlRequest request) {
+                          @RequestBody UpdateUrlRequest request) throws AlreadyExistUrlException {
         urlService.update(id, request);
     }
 }

@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.goit.error.AppError;
+import ua.goit.url.service.exceptions.AlreadyExistUrlException;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
@@ -22,5 +24,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<AppError> catchIllegalArgumentException(IllegalArgumentException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchAlreadyExistUrlException(AlreadyExistUrlException e){
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new AppError(HttpStatus.CONFLICT.value(), e.getMessage()), HttpStatus.CONFLICT);
     }
 }

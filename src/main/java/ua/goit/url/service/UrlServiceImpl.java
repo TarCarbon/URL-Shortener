@@ -3,22 +3,18 @@ package ua.goit.url.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.goit.url.UrlEntity;
+import ua.goit.url.dto.UrlDto;
+import ua.goit.url.mapper.UrlMapper;
 import ua.goit.url.repository.UrlRepository;
+import ua.goit.url.request.CreateUrlRequest;
+import ua.goit.url.request.UpdateUrlRequest;
+import ua.goit.url.service.exceptions.AlreadyExistUrlException;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.springframework.beans.factory.annotation.Autowired;
-import ua.goit.url.dto.UrlDto;
-import ua.goit.url.mapper.UrlMapper;
-import ua.goit.url.request.CreateUrlRequest;
-import ua.goit.url.request.UpdateUrlRequest;
-import ua.goit.user.UserEntity;
-import ua.goit.user.dto.UserDto;
-import ua.goit.user.mapper.UserMapper;
-import ua.goit.user.repository.UserRepository;
-import ua.goit.user.service.UserService;
-
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 
@@ -47,15 +43,16 @@ public class UrlServiceImpl implements UrlService{
     }
 
     @Override
-    public void update(Long id, UpdateUrlRequest request) {
-        if(Objects.isNull(request.getShortUrl())){
-            throw new RuntimeException("Not found");
+    public void update(Long id, UpdateUrlRequest request) throws AlreadyExistUrlException {
+        UrlDto dto = getById(id);
+        if(Objects.isNull(dto)){
+            throw new NoSuchElementException("Not found url with id: " + id);
         }
         if (!isLinkUnique(request.getShortUrl())){
-            throw new RuntimeException("this short link is present");
+            throw new AlreadyExistUrlException(request.getShortUrl());
         }
 
-        UrlDto dto = getById(id);
+
         dto.setUrl(request.getUrl());
         dto.setShortUrl(request.getShortUrl());
         dto.setDescription(request.getDescription());

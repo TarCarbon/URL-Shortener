@@ -8,6 +8,9 @@ import ua.goit.user.dto.UserDto;
 import ua.goit.user.mapper.UserMapper;
 import ua.goit.user.repository.UserRepository;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -16,6 +19,12 @@ public class UserServiceImpl implements UserService{
     private final UserMapper userMapper;
     @Override
     public UserDto findByUsername(String username){
-        return userMapper.toUserDto(userRepository.findByUsername(username).get());
+        Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+        if(userEntity.isPresent()){
+            return userMapper.toUserDto(userEntity.get());
+        } else {
+            throw new NoSuchElementException("there isn't user with username: " + username);
+        }
+
     }
 }
