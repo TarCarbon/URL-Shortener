@@ -43,7 +43,7 @@ public class UrlServiceImpl implements UrlService{
     }
 
     @Override
-    public void update(Long id, UpdateUrlRequest request) throws AlreadyExistUrlException {
+    public void update(Long id, UpdateUrlRequest request) {
         UrlDto dto = getById(id);
         if(Objects.isNull(dto)){
             throw new NoSuchElementException("Not found url with id: " + id);

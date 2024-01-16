@@ -1,6 +1,6 @@
 package ua.goit.url.service.exceptions;
 
-public class AlreadyExistUrlException extends Exception{
+public class AlreadyExistUrlException extends RuntimeException{
 
     private static final String URL_ALREADY_EXIST_TEXT = "url with short_url = %s already exist";
 

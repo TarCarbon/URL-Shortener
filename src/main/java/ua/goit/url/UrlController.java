@@ -23,7 +23,7 @@ public class UrlController {
 
     @PostMapping("/{id}/edit")
     public void updateUrl(@PathVariable("id") Long id,
-                          @RequestBody UpdateUrlRequest request) throws AlreadyExistUrlException {
+                          @RequestBody UpdateUrlRequest request) {
         urlService.update(id, request);
     }
 }
