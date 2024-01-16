@@ -31,4 +31,15 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<UrlEntity> urls = new ArrayList<>();
+
+    public UserEntity() {
+    }
+
+    public UserEntity(Long id, String username, String password, Role role, List<UrlEntity> urls) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.urls = urls;
+    }
 }
