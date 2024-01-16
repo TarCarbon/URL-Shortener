@@ -2,15 +2,17 @@ package ua.goit.url;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ua.goit.user.UserEntity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "urls")
+@NoArgsConstructor
 @AllArgsConstructor
 public class UrlEntity {
 
