@@ -11,6 +11,9 @@ import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
 import ua.goit.url.repository.UrlRepository;
 import ua.goit.url.service.UrlServiceImpl;
+import ua.goit.user.Role;
+import ua.goit.user.dto.UserDto;
+import ua.goit.user.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -28,6 +31,9 @@ class UrlServiceImplTest {
     @Mock
     private UrlMapper urlMapper;
 
+    @Mock
+    private UserService userService;
+
     @InjectMocks
     private UrlServiceImpl urlService;
 
@@ -37,6 +43,9 @@ class UrlServiceImplTest {
     void testGetAllUrlUser() {
 
         Long userId = 1L;
+        String username = "user";
+        UserDto userDto = new UserDto(1L, "user", "password", Role.USER);
+
         List<UrlEntity> mockUrls = Arrays.asList(
                 new UrlEntity(1L, "abc123", "https://www.example.com/1", "null", null,
                         LocalDateTime.now(), LocalDateTime.now().plusDays(30L), 0),
@@ -52,11 +61,12 @@ class UrlServiceImplTest {
         );
 
         when(urlRepository.findByUserId(userId)).thenReturn(mockUrls);
+        when(userService.findByUsername(username)).thenReturn(userDto);
         when(urlMapper.toUrlDto(mockUrls.get(0))).thenReturn(mockUrlDtos.get(0));
         when(urlMapper.toUrlDto(mockUrls.get(1))).thenReturn(mockUrlDtos.get(1));
 
 
-        List<UrlDto> result = urlService.getAllUrlUser(userId);
+        List<UrlDto> result = urlService.getAllUrlUser(username);
 
 
         assertEquals(mockUrlDtos, result);

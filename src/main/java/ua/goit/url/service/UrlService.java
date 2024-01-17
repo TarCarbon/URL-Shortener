@@ -3,7 +3,6 @@ package ua.goit.url.service;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
-import ua.goit.url.service.exceptions.AlreadyExistUrlException;
 
 import java.util.List;
 
@@ -12,15 +11,15 @@ public interface UrlService {
 
     UrlDto add(CreateUrlRequest url);
 
-    void deleteById(Long id);
+    void deleteById(String username, Long id);
 
-    void update(Long id, UpdateUrlRequest url);
+    void update(String username, Long id, UpdateUrlRequest url);
 
     UrlDto getById(Long id);
 
-    List<UrlDto> getAllUrlUser(Long id);
+    List<UrlDto> getAllUrlUser(String username);
 
-    List<UrlDto> getActiveUrls(Long id);
+    List<UrlDto> getActiveUrls(String username);
 
-    List<UrlDto> getInactiveUrls(Long id);
+    List<UrlDto> getInactiveUrls(String username);
 }

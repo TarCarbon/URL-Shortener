@@ -1,7 +1,6 @@
 package ua.goit.user.mapper;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import ua.goit.user.UserEntity;
 import ua.goit.user.dto.UserDto;
 

@@ -3,6 +3,7 @@ package ua.goit.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -49,6 +50,12 @@ public class GlobalExceptionHandler {
         Map<String, List<String>> errorResponse = new HashMap<>();
         errorResponse.put("errors", errors);
         return errorResponse;
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<AppError> handleAccessDeniedException(AccessDeniedException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new AppError(HttpStatus.FORBIDDEN.value(), e.getMessage()), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)

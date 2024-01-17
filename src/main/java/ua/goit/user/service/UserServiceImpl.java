@@ -1,7 +1,13 @@
 package ua.goit.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.goit.jwt.JwtUtils;
 import ua.goit.user.CreateUserRequest;
 import ua.goit.user.Role;
 import ua.goit.user.UserAlreadyExistException;
@@ -15,19 +21,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder encoder;
+    private final JwtUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
+
     @Override
-    public UserDto findByUsername(String username){
+    public UserDto findByUsername(String username) {
         Optional<UserEntity> userEntity = userRepository.findByUsername(username);
-        if(userEntity.isPresent()){
+        if (userEntity.isPresent()) {
             return userMapper.toUserDto(userEntity.get());
         } else {
-            throw new NoSuchElementException("there isn't user with username: " + username);
+            throw new NoSuchElementException("There isn't user with username: " + username);
         }
-
     }
 
     @Override
@@ -41,11 +50,19 @@ public class UserServiceImpl implements UserService{
 
         UserEntity user = UserEntity.builder()
                 .username(username)
-                //TODO change when add JWT
-                //.password(encoder.encode(password))
-                .password(password)
+                .password(encoder.encode(password))
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
+    }
+
+    @Override
+    public String loginUser(CreateUserRequest userRequest) {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        userRequest.getUsername(), userRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return jwtUtils.generateJwtToken(authentication);
     }
 }
