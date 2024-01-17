@@ -48,4 +48,6 @@ public class UrlEntity {
         this.createdDate = LocalDateTime.now();
         this.expirationDate = this.createdDate.plusDays(VALID_DAYS);
     }
+    public UrlEntity() {
+    }
 }

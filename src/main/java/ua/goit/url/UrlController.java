@@ -20,11 +20,8 @@ public class UrlController {
         return urlService.listAll();
     }
 
-    @GetMapping("/list/user")
-    public ModelAndView allUserUrls(Long id) {
-        ModelAndView result = new ModelAndView("all");
-        List<UrlDto> urlDtos = urlService.getAllUrlUser(id);
-        result.addObject("urls", urlDtos);
-        return result;
+    @GetMapping("/list/user/{id}")
+    public List<UrlDto> allUserUrls(@PathVariable("id") Long id) {
+        return urlService.getAllUrlUser(id);
     }
 }
