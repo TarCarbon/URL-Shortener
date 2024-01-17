@@ -3,9 +3,9 @@ package ua.goit.url.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
+import ua.goit.url.service.ShortLinkGenerator;
+import ua.goit.url.service.UrlServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -53,8 +53,10 @@ public class ShortLinkGeneratorTest {
 
         String generatedLink = shortLinkGenerator.generateShortLink();
 
+
         assertTrue(generatedLink.startsWith(""));
 
-        assertFalse(urlService.listAll().stream().anyMatch(urlDto -> urlDto.getShortUrl().equals(generatedLink)));
+
+        assertFalse(urlService.listAll().stream().anyMatch(urlEntity -> urlEntity.getShortUrl().equals(generatedLink)));
     }
 }

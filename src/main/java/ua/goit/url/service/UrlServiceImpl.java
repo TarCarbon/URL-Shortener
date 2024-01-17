@@ -11,7 +11,10 @@ import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -49,9 +52,16 @@ public class UrlServiceImpl implements UrlService{
         return null;
     }
 
+    @Override
+    public List<UrlDto> getAllUrlUser(Long id) {
+       return   urlRepository.findByUserId(id)
+                    .stream()
+                    .map(urlMapper::toUrlDto)
+                    .collect(Collectors.toList());
+    }
 
     public boolean isLinkUnique(String link) {
-        return listAll().stream().noneMatch(urlDto -> urlDto.getShortUrl().equals(link));
+        return listAll().stream().noneMatch(urlEntity -> urlEntity.getShortUrl().equals(link));
     }
 
     //before passing to the method, check and if necessary add to the originalUrl https://
