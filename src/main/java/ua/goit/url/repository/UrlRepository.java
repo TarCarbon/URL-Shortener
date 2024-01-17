@@ -1,16 +1,14 @@
 package ua.goit.url.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+
 import org.springframework.stereotype.Repository;
 import ua.goit.url.UrlEntity;
-import ua.goit.url.dto.UrlDto;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
 public interface UrlRepository extends JpaRepository<UrlEntity, Long> {
-    List<UrlEntity> findByUserId(Long userId);
+    List<UrlEntity> findByUserId(Long id);
 
 }
