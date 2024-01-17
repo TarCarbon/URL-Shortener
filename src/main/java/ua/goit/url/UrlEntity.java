@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.goit.user.UserEntity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data

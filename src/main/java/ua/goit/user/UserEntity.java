@@ -2,6 +2,9 @@ package ua.goit.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 import ua.goit.url.UrlEntity;
 
 import java.util.ArrayList;

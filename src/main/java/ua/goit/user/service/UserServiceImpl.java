@@ -1,8 +1,10 @@
 package ua.goit.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.goit.user.CreateUserRequest;
+import ua.goit.user.Role;
+import ua.goit.user.UserAlreadyExistException;
 import ua.goit.user.UserEntity;
 import ua.goit.user.dto.UserDto;
 import ua.goit.user.mapper.UserMapper;
@@ -26,5 +28,24 @@ public class UserServiceImpl implements UserService{
             throw new NoSuchElementException("there isn't user with username: " + username);
         }
 
+    }
+
+    @Override
+    public void registerUser(CreateUserRequest userRequest) {
+        String username = userRequest.getUsername();
+        String password = userRequest.getPassword();
+
+        if (userRepository.existsByUsername(username)) {
+            throw new UserAlreadyExistException(username);
+        }
+
+        UserEntity user = UserEntity.builder()
+                .username(username)
+                //TODO change when add JWT
+                //.password(encoder.encode(password))
+                .password(password)
+                .role(Role.USER)
+                .build();
+        userRepository.save(user);
     }
 }

@@ -26,4 +26,9 @@ public class UrlController {
                           @RequestBody UpdateUrlRequest request) {
         urlService.update(id, request);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
+        urlService.deleteById(id);
+    }
 }

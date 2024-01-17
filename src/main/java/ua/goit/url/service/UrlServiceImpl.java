@@ -3,6 +3,7 @@ package ua.goit.url.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.goit.url.UrlEntity;
+import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
 import ua.goit.url.repository.UrlRepository;
@@ -13,7 +14,15 @@ import ua.goit.url.service.exceptions.AlreadyExistUrlException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import org.springframework.beans.factory.annotation.Autowired;
+import ua.goit.url.dto.UrlDto;
+import ua.goit.url.mapper.UrlMapper;
+import ua.goit.url.request.CreateUrlRequest;
+import ua.goit.url.request.UpdateUrlRequest;
+import ua.goit.user.UserEntity;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -22,10 +31,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UrlServiceImpl implements UrlService{
     private final UrlMapper urlMapper;
-
     private final UrlRepository urlRepository;
-
-
 
     @Override
     public List<UrlDto> listAll() {
@@ -39,9 +45,18 @@ public class UrlServiceImpl implements UrlService{
 
     @Override
     public void deleteById(Long id) {
-        return;
+        if (!urlRepository.existsById(id)) {
+            throw new IllegalArgumentException("Url with id " + id + " not found");
+        } else {
+            Optional<UrlEntity> optionalUrl = urlRepository.findById(id);
+            if (optionalUrl.isPresent()) {
+                UrlEntity urlToDelete = optionalUrl.get();
+                UserEntity user = urlToDelete.getUser();
+                user.getUrls().remove(urlToDelete);
+            }
+            urlRepository.deleteById(id);
+        }
     }
-
 
     @Override
     public void update(Long id, UpdateUrlRequest request) {
