@@ -9,7 +9,6 @@ import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
-import ua.goit.user.UserEntity;
 
 import java.util.List;
 
@@ -24,52 +23,40 @@ public class UrlController {
         return urlService.listAll();
     }
 
-    @GetMapping("/list/user")
-    public List<UrlDto> allUserUrls() {
-        UserDetails principal = getUserDetails();
-        return urlService.getAllUrlUser(principal.getUsername());
-
     @PostMapping("/create")
-    public UrlDto createLink(@RequestBody CreateUrlRequest request) throws NotAccessibleException {
-        UrlDto response = urlService.createUrl(request);
-        ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
-        return response;
+    public UrlDto createLink(@RequestBody CreateUrlRequest request) {
+        return urlService.createUrl(getUsername(), request);
     }
 
-    @GetMapping("/list/user/{id}")
-    public List<UrlDto> allUserUrls(@PathVariable("id") Long id) {
-        return urlService.getAllUrlUser(id);
+    @GetMapping("/list/user")
+    public List<UrlDto> allUserUrls() {
+        return urlService.getAllUrlUser(getUsername());
     }
 
     @PostMapping("/edit/{id}")
     public void updateUrl(@PathVariable("id") Long id,
                           @RequestBody UpdateUrlRequest request) {
-        UserDetails principal = getUserDetails();
-        urlService.update(principal.getUsername(), id, request);
+        urlService.update(getUsername(), id, request);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable("id") Long id) {
-        UserDetails principal = getUserDetails();
-        urlService.deleteById(principal.getUsername(), id);
+        urlService.deleteById(getUsername(), id);
     }
 
     @GetMapping("/list/user/active")
-    public List<UrlDto> ActiveUrls(){
-        UserDetails principal = getUserDetails();
-        return  urlService.getActiveUrls(principal.getUsername());
+    public List<UrlDto> ActiveUrls() {
+        return urlService.getActiveUrls(getUsername());
     }
 
     @GetMapping("/list/user/inactive")
-    public List<UrlDto> InactiveUrls(){
-        UserDetails principal = getUserDetails();
-        return  urlService.getInactiveUrls(principal.getUsername());
+    public List<UrlDto> InactiveUrls() {
+        return urlService.getInactiveUrls(getUsername());
     }
 
-    private UserDetails getUserDetails() {
+    private String getUsername() {
         SecurityContext context = SecurityContextHolder.getContext();
-        return (UserDetails) context.getAuthentication().getPrincipal();
+        UserDetails principal = (UserDetails) context.getAuthentication().getPrincipal();
+        return principal.getUsername();
     }
 }

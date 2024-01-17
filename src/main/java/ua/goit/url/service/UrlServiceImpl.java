@@ -11,29 +11,19 @@ import ua.goit.url.repository.UrlRepository;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.exceptions.AlreadyExistUrlException;
+import ua.goit.url.service.exceptions.NotAccessibleException;
 import ua.goit.user.UserEntity;
 import ua.goit.user.service.UserService;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import ua.goit.url.dto.UrlDto;
-import ua.goit.url.mapper.UrlMapper;
-import ua.goit.url.request.CreateUrlRequest;
-import ua.goit.url.request.UpdateUrlRequest;
-
-import java.util.Collections;
-import ua.goit.user.UserEntity;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -51,20 +41,28 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     @Transactional
-    public UrlDto createUrl (CreateUrlRequest url) {
-        String shortUrl;
-        if (!isUrlAccessible(url.getUrl())) {
-            throw new NotAccessibleException(url);
-        } else {
-            do{
-                shortUrl = shortLinkGenerator.generateShortLink();
-            } while (!isLinkUnique(shortUrl));
-            UrlDto urlDto = urlMapper.toUrlDto(url);
-            urlDto.setShortUrl(shortLinkGenerator.generateShortLink());
-            urlDto.setVisitCount(0);
-            urlDto.setUsername("dima"); //тимчасово
-            return urlMapper.toUrlDto(urlRepository.save(urlMapper.toUrlEntity(urlDto)));
+    public UrlDto createUrl(String username, CreateUrlRequest url) {
+        String originalUrl = url.getUrl();
+        if (!originalUrl.startsWith("https://") && !originalUrl.startsWith("http://")) {
+            originalUrl = "https://" + originalUrl;
         }
+        if (!isUrlAccessible(originalUrl)) {
+            throw new NotAccessibleException(url);
+        }
+
+        String shortUrl;
+        do {
+            shortUrl = shortLinkGenerator.generateShortLink();
+        } while (!isLinkUnique(shortUrl));
+
+        UrlDto urlDto = new UrlDto();
+        urlDto.setShortUrl(shortLinkGenerator.generateShortLink());
+        urlDto.setUrl(originalUrl);
+        urlDto.setDescription(url.getDescription());
+        urlDto.setUsername(username);
+        urlDto.setVisitCount(0);
+        return urlMapper.toUrlDto(urlRepository.save(urlMapper.toUrlEntity(urlDto)));
+
     }
 
     @Override
