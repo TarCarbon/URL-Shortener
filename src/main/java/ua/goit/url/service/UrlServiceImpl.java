@@ -52,13 +52,17 @@ public class UrlServiceImpl implements UrlService {
     @Override
     @Transactional
     public UrlDto createUrl (CreateUrlRequest url) {
+        String shortUrl;
         if (!isUrlAccessible(url.getUrl())) {
             throw new NotAccessibleException(url);
         } else {
+            do{
+                shortUrl = shortLinkGenerator.generateShortLink();
+            } while (!isLinkUnique(shortUrl));
             UrlDto urlDto = urlMapper.toUrlDto(url);
             urlDto.setShortUrl(shortLinkGenerator.generateShortLink());
             urlDto.setVisitCount(0);
-            urlDto.setUsername("principal.getName()"); //тимчасово
+            urlDto.setUsername("dima"); //тимчасово
             return urlMapper.toUrlDto(urlRepository.save(urlMapper.toUrlEntity(urlDto)));
         }
     }
