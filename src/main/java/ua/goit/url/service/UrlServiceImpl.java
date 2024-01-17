@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.goit.url.UrlEntity;
 import ua.goit.url.repository.UrlRepository;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UrlServiceImpl implements UrlService{
+public class UrlServiceImpl implements UrlService {
 
 
     @Autowired
@@ -68,21 +70,17 @@ public class UrlServiceImpl implements UrlService{
     @Override
     public List<UrlDto> getActiveUrls() {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        return urlMapper.toUrlDtos(
-                urlRepository.findAll().stream()
+        return urlMapper.toUrlDtos(urlRepository.findAll().stream()
                         .filter(urlEntity -> urlEntity.getExpirationDate().isAfter(currentDateTime))
-                        .collect(Collectors.toList())
-        );
+                        .collect(Collectors.toList()));
     }
 
     @Override
     public List<UrlDto> getInactiveUrls() {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        return urlMapper.toUrlDtos(
-                urlRepository.findAll().stream()
+        return urlMapper.toUrlDtos(urlRepository.findAll().stream()
                         .filter(urlEntity -> urlEntity.getExpirationDate().isBefore(currentDateTime))
-                        .collect(Collectors.toList())
-        );
+                        .collect(Collectors.toList()));
     }
 
 
