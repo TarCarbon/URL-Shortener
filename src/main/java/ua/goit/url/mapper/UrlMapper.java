@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
+import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.user.UserEntity;
 import ua.goit.user.mapper.UserMapper;
 import ua.goit.user.service.UserService;
@@ -18,7 +19,7 @@ public class UrlMapper {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    public List<UrlDto> toUrlDtos(Collection<UrlEntity> entities){
+    public List<UrlDto> toUrlDtos(Collection<UrlEntity> entities) {
         return entities.stream()
                 .map(this::toUrlDto)
                 .collect(Collectors.toList());
@@ -52,5 +53,12 @@ public class UrlMapper {
         entity.setUser(user);
 
         return entity;
+    }
+
+    public UrlDto toUrlDto(CreateUrlRequest request) {
+        UrlDto dto = new UrlDto();
+        dto.setUrl(request.getUrl());
+        dto.setDescription(request.getDescription());
+        return dto;
     }
 }
