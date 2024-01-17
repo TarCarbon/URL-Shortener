@@ -14,7 +14,13 @@ public interface UrlService {
 
     void deleteById(Long id);
 
-    void update(Long id, UpdateUrlRequest url) throws AlreadyExistUrlException;
+    void update(Long id, UpdateUrlRequest url);
 
     UrlDto getById(Long id);
+
+    List<UrlDto> getAllUrlUser(Long id);
+
+    List<UrlDto> getActiveUrls(Long id);
+
+    List<UrlDto> getInactiveUrls(Long id);
 }
