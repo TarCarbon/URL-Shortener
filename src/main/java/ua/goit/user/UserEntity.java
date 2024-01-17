@@ -5,17 +5,18 @@ import lombok.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
+import lombok.*;
 import ua.goit.url.UrlEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
-@Table(name = "users")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
+import ua.goit.user.UserEntity;
 
 import java.util.List;
 
@@ -35,4 +36,11 @@ public class UrlController {
     public void deleteById(@PathVariable("id") Long id) {
         urlService.deleteById(id);
     }
+
+    //using user`s id
+    @GetMapping("/list/active/{id}")
+    public List<UrlDto> ActiveUrls(@PathVariable("id") Long id){return  urlService.getActiveUrls(id);}
+    //using user`s id
+    @GetMapping("/list/inactive/{id}")
+    public List<UrlDto> InactiveUrls(@PathVariable("id") Long id){return  urlService.getInactiveUrls(id);}
 }
