@@ -1,6 +1,7 @@
 package ua.goit.user;
 
 import jakarta.persistence.*;
+import lombok.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -10,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
 @Entity
 @Table(name = "users")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
