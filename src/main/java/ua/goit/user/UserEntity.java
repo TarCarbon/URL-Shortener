@@ -1,6 +1,8 @@
 package ua.goit.user;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 import ua.goit.url.UrlEntity;
@@ -11,6 +13,9 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "users")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

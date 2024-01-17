@@ -3,8 +3,8 @@ package ua.goit.url;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ua.goit.url.dto.UrlDto;
+import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
 
 import java.util.List;
@@ -23,5 +23,16 @@ public class UrlController {
     @GetMapping("/list/user/{id}")
     public List<UrlDto> allUserUrls(@PathVariable("id") Long id) {
         return urlService.getAllUrlUser(id);
+    }
+
+    @PostMapping("/{id}/edit")
+    public void updateUrl(@PathVariable("id") Long id,
+                          @RequestBody UpdateUrlRequest request) {
+        urlService.update(id, request);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
+        urlService.deleteById(id);
     }
 }
