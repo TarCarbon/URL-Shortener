@@ -17,6 +17,7 @@ public interface UrlService {
 
     UrlDto getById(Long id);
 
-    List<UrlDto> getActiveUrls();
-    List<UrlDto> getInactiveUrls();
+    List<UrlDto> getActiveUrls(Long id);
+
+    List<UrlDto> getInactiveUrls(Long id);
 }

@@ -68,19 +68,15 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public List<UrlDto> getActiveUrls() {
+    public List<UrlDto> getActiveUrls(Long userId) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        return urlMapper.toUrlDtos(urlRepository.findAll().stream()
-                        .filter(urlEntity -> urlEntity.getExpirationDate().isAfter(currentDateTime))
-                        .collect(Collectors.toList()));
+        return urlMapper.toUrlDtos(urlRepository.findActiveUrlsByUserId(userId, currentDateTime));
     }
 
     @Override
-    public List<UrlDto> getInactiveUrls() {
+    public List<UrlDto> getInactiveUrls(Long userId) {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        return urlMapper.toUrlDtos(urlRepository.findAll().stream()
-                        .filter(urlEntity -> urlEntity.getExpirationDate().isBefore(currentDateTime))
-                        .collect(Collectors.toList()));
+        return urlMapper.toUrlDtos(urlRepository.findInactiveUrlsByUserId(userId, currentDateTime));
     }
 
 

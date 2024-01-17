@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.service.UrlService;
+import ua.goit.user.UserEntity;
 
 import java.util.List;
 
@@ -24,8 +25,10 @@ public class UrlController {
         urlService.deleteById(id);
     }
 
-    @GetMapping("/list/active")
-    public List<UrlDto> ActiveUrls(){return  urlService.getActiveUrls();}
-    @GetMapping("/list/inactive")
-    public List<UrlDto> InactiveUrls(){return  urlService.getInactiveUrls();}
+    //using user`s id
+    @GetMapping("/list/active/{id}")
+    public List<UrlDto> ActiveUrls(@PathVariable("id") Long id){return  urlService.getActiveUrls(id);}
+    //using user`s id
+    @GetMapping("/list/inactive/{id}")
+    public List<UrlDto> InactiveUrls(@PathVariable("id") Long id){return  urlService.getInactiveUrls(id);}
 }

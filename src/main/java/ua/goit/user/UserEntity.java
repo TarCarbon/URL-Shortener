@@ -1,9 +1,7 @@
 package ua.goit.user;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import ua.goit.url.UrlEntity;
 
 import java.util.ArrayList;
@@ -11,6 +9,8 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -32,14 +32,4 @@ public class UserEntity {
     @ToString.Exclude
     private List<UrlEntity> urls = new ArrayList<>();
 
-    public UserEntity() {
-    }
-
-    public UserEntity(Long id, String username, String password, Role role, List<UrlEntity> urls) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.urls = urls;
-    }
 }
