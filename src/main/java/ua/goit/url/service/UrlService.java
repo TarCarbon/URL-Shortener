@@ -17,4 +17,7 @@ public interface UrlService {
     void update(Long id, UpdateUrlRequest url) throws AlreadyExistUrlException;
 
     UrlDto getById(Long id);
+
+    List<UrlDto> getAllUrlUser(Long id);
+
 }

@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
-import ua.goit.url.service.exceptions.AlreadyExistUrlException;
 
 import java.util.List;
 
@@ -19,6 +18,11 @@ public class UrlController {
     @GetMapping("/list")
     public List<UrlDto> urlList() {
         return urlService.listAll();
+    }
+
+    @GetMapping("/list/user/{id}")
+    public List<UrlDto> allUserUrls(@PathVariable("id") Long id) {
+        return urlService.getAllUrlUser(id);
     }
 
     @PostMapping("/{id}/edit")
