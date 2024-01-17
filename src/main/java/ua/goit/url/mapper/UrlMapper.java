@@ -3,7 +3,7 @@ package ua.goit.url.mapper;
 import org.springframework.stereotype.Component;
 import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
-import ua.goit.url.request.CreateUrlRequest;
+import ua.goit.url.request.UrlRequest;
 import ua.goit.url.response.UrlResponse;
 
 import java.util.Collection;
@@ -32,26 +32,6 @@ public class UrlMapper {
         return dto;
     }
 
-    public UrlEntity toUrlEntity(UrlDto dto) {
-        UrlEntity entity = new UrlEntity();
-        entity.setId(dto.getId());
-        entity.setUrl(dto.getUrl());
-        entity.setShortUrl(dto.getShortUrl());
-        entity.setDescription(dto.getDescription());
-        entity.setCreatedDate(dto.getCreatedDate());
-        entity.setExpirationDate(dto.getExpirationDate());
-        entity.setVisitCount(dto.getVisitCount());
-        return entity;
-    }
-
-    public UrlDto toUrlDto(CreateUrlRequest request) {
-        UrlDto dto = new UrlDto();
-        dto.setUrl(request.getUrl());
-        dto.setShortUrl(request.getShortUrl());
-        dto.setDescription(request.getDescription());
-        return dto;
-    }
-
     public UrlResponse toUrlResponse(UrlDto dto) {
         UrlResponse response = new UrlResponse();
         response.setId(dto.getId());
@@ -69,5 +49,24 @@ public class UrlMapper {
         return dtos.stream()
                 .map(this::toUrlResponse)
                 .collect(Collectors.toList());
+    }
+
+    public UrlDto toUrlDto(UrlRequest request) {
+        UrlDto dto = new UrlDto();
+        dto.setUrl(request.getUrl());
+        dto.setDescription(request.getDescription());
+        return dto;
+    }
+
+    public UrlEntity toUrlEntity(UrlDto dto) {
+        UrlEntity entity = new UrlEntity();
+        entity.setId(dto.getId());
+        entity.setUrl(dto.getUrl());
+        entity.setShortUrl(dto.getShortUrl());
+        entity.setDescription(dto.getDescription());
+        entity.setCreatedDate(dto.getCreatedDate());
+        entity.setExpirationDate(dto.getExpirationDate());
+        entity.setVisitCount(dto.getVisitCount());
+        return entity;
     }
 }

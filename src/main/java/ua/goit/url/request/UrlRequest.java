@@ -7,8 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class UrlRequest {
-    @Size(max = 8)
-    private String shortUrl;
+    /*@Size(max = 8)
+    private String shortUrl;*/
 
     @Size(max = 255)
     private String url;
@@ -16,6 +16,6 @@ public abstract class UrlRequest {
     @Size(max = 1000)
     private String description;
 
-    /*@Size(min = 2, max = 50)
+/*    @Size(min = 2, max = 50)
     private String username;*/
 }
