@@ -42,12 +42,10 @@ public class UrlServiceImpl implements UrlService {
     @Override
     @Transactional
     public UrlDto createUrl(String username, CreateUrlRequest url) {
-        String originalUrl = url.getUrl();
-        if (!originalUrl.startsWith("https://") && !originalUrl.startsWith("http://")) {
-            originalUrl = "https://" + originalUrl;
-        }
+        String originalUrl = getFullUrl(url.getUrl());
+
         if (!isUrlAccessible(originalUrl)) {
-            throw new NotAccessibleException(url);
+            throw new NotAccessibleException(originalUrl);
         }
 
         String shortUrl;
@@ -93,10 +91,16 @@ public class UrlServiceImpl implements UrlService {
         if (!isLinkUnique(request.getShortUrl())) {
             throw new AlreadyExistUrlException(request.getShortUrl());
         }
+        if (request.getShortUrl().isBlank()) {
+            throw new IllegalArgumentException("Short link can't be empty");
+        }
+        if (!isUrlAccessible(getFullUrl(request.getUrl()))) {
+            throw new NotAccessibleException(request.getUrl());
+        }
         if (!dto.getUsername().equals(username)) {
             throw new AccessDeniedException("Access forbidden");
         }
-        dto.setUrl(request.getUrl());
+        dto.setUrl(getFullUrl(request.getUrl()));
         dto.setShortUrl(request.getShortUrl());
         dto.setDescription(request.getDescription());
         UrlEntity urlEntity = urlMapper.toUrlEntity(dto);
@@ -135,6 +139,13 @@ public class UrlServiceImpl implements UrlService {
 
     public boolean isLinkUnique(String link) {
         return listAll().stream().noneMatch(urlEntity -> urlEntity.getShortUrl().equals(link));
+    }
+
+    private String getFullUrl(String url) {
+        if (!url.startsWith("https://") && !url.startsWith("http://")) {
+            url = "https://" + url;
+        }
+        return url;
     }
 
     private boolean isUrlAccessible(String originalUrl) {

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS urls (
     id              BIGSERIAL PRIMARY KEY,
-    short_url       VARCHAR(8) CHECK (length(short_url) = 8),
+    short_url       VARCHAR(20) NOT NULL,
     url             VARCHAR(255) NOT NULL,
     description     VARCHAR(1000),
     user_id         BIGSERIAL    NOT NULL,

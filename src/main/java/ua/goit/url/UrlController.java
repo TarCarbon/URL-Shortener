@@ -1,6 +1,7 @@
 package ua.goit.url;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/V1/urls")
