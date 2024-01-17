@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EditUrlRequest {
-    private String shortUrl;
+public class CreateUrlRequest {
     private String url;
     private String description;
 }

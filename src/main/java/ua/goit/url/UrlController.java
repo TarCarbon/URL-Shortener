@@ -6,58 +6,55 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.goit.url.dto.UrlDto;
-import ua.goit.url.mapper.UrlMapper;
-import ua.goit.url.request.UrlRequest;
-import ua.goit.url.response.UrlResponse;
-import ua.goit.url.service.ShortLinkGenerator;
-import ua.goit.url.service.UrlServiceImpl;
+import ua.goit.url.request.CreateUrlRequest;
+import ua.goit.url.request.UpdateUrlRequest;
+import ua.goit.url.service.UrlService;
+import ua.goit.url.service.exceptions.NotAccessibleException;
+import ua.goit.user.UserEntity;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/V1/urls")
 public class UrlController {
-    private static final int SHORT_URL_LENGTH = 8;
-    private static final String URL_PREFIX = "https://";
     @Autowired
-    private UrlServiceImpl urlService;
-    @Autowired
-    private UrlMapper urlMapper;
-    @Autowired
-    private ShortLinkGenerator shortLinkGenerator;
+    private UrlService urlService;
 
-    @GetMapping("/url/all")
+    @GetMapping("/list")
     public List<UrlDto> urlList() {
         return urlService.listAll();
     }
 
-    @GetMapping("/url/all")
-    public ResponseEntity<List<UrlResponse>> allLinks() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(urlMapper.toUrlResponses(urlService.listAll()));
+    @PostMapping("/create")
+    public UrlDto createLink(@RequestBody CreateUrlRequest request) throws NotAccessibleException {
+        UrlDto response = urlService.createUrl(request);
+        ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
+        return response;
     }
 
-    @PostMapping("/url/create")
-    public ResponseEntity<UrlResponse> createLink(Principal principal, @RequestBody UrlRequest request) {
-        String shortUrl = URL_PREFIX + UUID.randomUUID().toString().substring(0, SHORT_URL_LENGTH);
-//        String shortUrl = shortLinkGenerator.generateShortLink(); //цей генератор чомусь не видає значення
-        UrlDto urlDto = urlMapper.toUrlDto(request);
-//        urlDto.setUsername(principal.getName()); //тимчасово відключаю, поки напишемо секьюріті
-        urlDto.setCreatedDate(LocalDateTime.now());
-        urlDto.setExpirationDate(LocalDateTime.now().plusDays(30));
-        urlDto.setVisitCount(0);
-        urlDto.setShortUrl(shortUrl);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(urlMapper.toUrlResponse(urlService.createUrl(urlDto)));
+    @GetMapping("/list/user/{id}")
+    public List<UrlDto> allUserUrls(@PathVariable("id") Long id) {
+        return urlService.getAllUrlUser(id);
+    }
+
+    @PostMapping("/{id}/edit")
+    public void updateUrl(@PathVariable("id") Long id,
+                          @RequestBody UpdateUrlRequest request) {
+        urlService.update(id, request);
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable("id") Long id) {
         urlService.deleteById(id);
     }
+
+    //using user`s id
+    @GetMapping("/list/active/{id}")
+    public List<UrlDto> ActiveUrls(@PathVariable("id") Long id){return  urlService.getActiveUrls(id);}
+    //using user`s id
+    @GetMapping("/list/inactive/{id}")
+    public List<UrlDto> InactiveUrls(@PathVariable("id") Long id){return  urlService.getInactiveUrls(id);}
 }
