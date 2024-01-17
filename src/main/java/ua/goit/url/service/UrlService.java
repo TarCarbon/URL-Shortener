@@ -9,7 +9,7 @@ import java.util.List;
 public interface UrlService {
     List<UrlDto> listAll();
 
-    UrlDto add(CreateUrlRequest url);
+    UrlDto createUrl(CreateUrlRequest url);
 
     void deleteById(String username, Long id);
 

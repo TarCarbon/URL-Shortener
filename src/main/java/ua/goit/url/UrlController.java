@@ -6,13 +6,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ua.goit.url.dto.UrlDto;
+import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
+import ua.goit.user.UserEntity;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/V1/url")
+@RequestMapping("/V1/urls")
 @RequiredArgsConstructor
 public class UrlController {
     private final UrlService urlService;
@@ -26,6 +28,19 @@ public class UrlController {
     public List<UrlDto> allUserUrls() {
         UserDetails principal = getUserDetails();
         return urlService.getAllUrlUser(principal.getUsername());
+
+    @PostMapping("/create")
+    public UrlDto createLink(@RequestBody CreateUrlRequest request) throws NotAccessibleException {
+        UrlDto response = urlService.createUrl(request);
+        ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
+        return response;
+    }
+
+    @GetMapping("/list/user/{id}")
+    public List<UrlDto> allUserUrls(@PathVariable("id") Long id) {
+        return urlService.getAllUrlUser(id);
     }
 
     @PostMapping("/edit/{id}")

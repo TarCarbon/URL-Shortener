@@ -1,5 +1,6 @@
 package ua.goit.url.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,23 @@ import ua.goit.user.service.UserService;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import ua.goit.url.dto.UrlDto;
+import ua.goit.url.mapper.UrlMapper;
+import ua.goit.url.request.CreateUrlRequest;
+import ua.goit.url.request.UpdateUrlRequest;
+
+import java.util.Collections;
+import ua.goit.user.UserEntity;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 
 @Service
@@ -29,6 +41,7 @@ import java.util.stream.Collectors;
 public class UrlServiceImpl implements UrlService {
     private final UrlMapper urlMapper;
     private final UrlRepository urlRepository;
+    private final ShortLinkGenerator shortLinkGenerator;
     private final UserService userService;
 
     @Override
@@ -37,8 +50,17 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public UrlDto add(CreateUrlRequest url) {
-        return null;
+    @Transactional
+    public UrlDto createUrl (CreateUrlRequest url) {
+        if (!isUrlAccessible(url.getUrl())) {
+            throw new NotAccessibleException(url);
+        } else {
+            UrlDto urlDto = urlMapper.toUrlDto(url);
+            urlDto.setShortUrl(shortLinkGenerator.generateShortLink());
+            urlDto.setVisitCount(0);
+            urlDto.setUsername("principal.getName()"); //тимчасово
+            return urlMapper.toUrlDto(urlRepository.save(urlMapper.toUrlEntity(urlDto)));
+        }
     }
 
     @Override
