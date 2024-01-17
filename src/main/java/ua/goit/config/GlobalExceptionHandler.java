@@ -3,10 +3,13 @@ package ua.goit.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.goit.error.AppError;
+import ua.goit.url.service.exceptions.AlreadyExistUrlException;
 import ua.goit.user.UserAlreadyExistException;
+import org.springframework.validation.FieldError;
 
 import java.util.*;
 import java.util.stream.Collectors;
