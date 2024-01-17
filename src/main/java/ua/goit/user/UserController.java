@@ -24,6 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "User login", description = "Allow user to login")
     public String loginUser(@Valid @RequestBody CreateUserRequest userRequest) {
         return userService.loginUser(userRequest);
     }
