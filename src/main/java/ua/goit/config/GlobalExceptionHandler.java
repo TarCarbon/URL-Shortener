@@ -3,12 +3,13 @@ package ua.goit.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.goit.error.AppError;
+import ua.goit.url.service.exceptions.AlreadyExistUrlException;
 import ua.goit.user.UserAlreadyExistException;
+import org.springframework.validation.FieldError;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,22 +17,22 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<AppError> handleNoSuchElementException(NoSuchElementException e) {
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchNoSuchElementException(NoSuchElementException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<AppError> handleIllegalArgumentException(IllegalArgumentException e) {
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchIllegalArgumentException(IllegalArgumentException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<AppError> handleUserAlreadyExistException(UserAlreadyExistException e) {
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchAlreadyExistUrlException(AlreadyExistUrlException e){
         log.error(e.getMessage(), e);
-        return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new AppError(HttpStatus.CONFLICT.value(), e.getMessage()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

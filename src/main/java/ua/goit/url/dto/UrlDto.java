@@ -1,10 +1,10 @@
 package ua.goit.url.dto;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import ua.goit.user.UserEntity;
 
-import java.math.BigDecimal;
+import lombok.Data;
+
+
+
 import java.time.LocalDateTime;
 
 @Data

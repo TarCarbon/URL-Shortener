@@ -2,6 +2,10 @@ package ua.goit.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
+import lombok.*;
 import ua.goit.url.UrlEntity;
 
 import java.util.ArrayList;
@@ -9,8 +13,8 @@ import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -31,5 +35,4 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<UrlEntity> urls = new ArrayList<>();
-
 }
