@@ -114,9 +114,9 @@
                                 <div class="row">
                                     <div class="col-sm-10">
                                         <select class="form-control">
-                                            <option th:href="/api/V1/urls/list/user">All</option>
+                                            <option th:href="/api/V1/urls/list">All</option>
                                             <option th:href="/api/V1/urls/list/user/active">Active</option>
-                                            <option th:href="/api/V1/urls/list/user/inactive">Inactive</option>
+                                            <option th:href="/api/V1/urls/user/list/inactive">Inactive</option>
                                         </select>
                                     </div>
                                 </div>
@@ -143,9 +143,9 @@
                                 <div class="row">
                                     <div class="col-sm-10">
                                         <select class="form-control">
-                                            <option><a th:href="/api/V1/urls/edit/{urls.id}">Edit</a></option>
-                                            <option><a th:href="/api/V1/urls/delete/{urls.id}">Delete</a></option>
-                                            <option><a th:href="/api/V1/urls/prolong/{urls.id}">Prolong</a></option>
+                                            <option><a th:href="/api/V1/urls/edit/{id}">Edit</a></option>
+                                            <option><a th:href="/api/V1/urls/delete/{id}">Delete</a></option>
+                                            <option><a th:href="/api/V1/urls/prolong/{id}">Prolong</a></option>
                                         </select>
                                     </div>
                                 </div>
