@@ -2,21 +2,23 @@ package ua.goit.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import io.jsonwebtoken.Jwts;
+import org.springframework.stereotype.Component;
 
 
 import java.util.Date;
 import java.time.Duration;
+import java.util.List;
 
 
-
-
-@Configuration
-@Data
+@Component
+@RequiredArgsConstructor
+@Slf4j
 public class JwtTokenUtils {
 
   @Value("${jwt.secret}")
@@ -31,6 +33,7 @@ public class JwtTokenUtils {
     Date issuedDate = new Date();
     Date expiredDate = new Date(issuedDate.getTime() + lifetime.toMillis());
 
+
     return Jwts.builder()
             .setSubject(userDetails.getUsername())
             .setIssuedAt(issuedDate)
@@ -39,15 +42,16 @@ public class JwtTokenUtils {
             .compact();
   }
 
+
   public String getUsername(String token) {
     return getAllClaimsFromToken(token).getSubject();
   }
+
 
   private Claims getAllClaimsFromToken(String token) {
     return Jwts.parser()
             .setSigningKey(secret)
             .parseClaimsJws(token)
             .getBody();
-
   }
 }
