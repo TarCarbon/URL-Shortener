@@ -16,9 +16,9 @@ public class CreateUserRequest {
 
     @NotBlank(message = "Password is required")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$",
-            message = "Password should have 8 or more chars and contains numbers, " +
+            message = "Password should have 8 or more characters and contains numbers, " +
             "letters in upper case and letters in lower case")
-    @Schema(description = "Password should have 8 or more chars and contains numbers, " +
+    @Schema(description = "Password should have 8 or more characters and contains numbers, " +
             "letters in upper case and letters in lower case")
     private String password;
 }

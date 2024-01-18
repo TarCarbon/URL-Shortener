@@ -58,7 +58,9 @@ public class JwtSecurityConfiguration {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/V1/user/**",
-                                "/V1/urls/list").permitAll()
+                                "/V1/urls/list",
+                                "V2/user/**",
+                                "V2/urls/**").permitAll()
                         .requestMatchers("/V1/urls/**").authenticated()
                         //.requestMatchers("/V2/urls/**").permitAll()
                         //.anyRequest().authenticated())
