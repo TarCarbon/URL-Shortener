@@ -77,8 +77,8 @@
             </div>
 
             <div class="col-md-1 mt-2">
-                <span class="user">Hello, User</span>!<br>
-                <span class="user"><a href="http://localhost:9999/api/v1/user/logout">Logout</a></span>
+                <span class="user" th:text="'Hello, ' + ${username}"></span>!<br>
+                <span class="user"><a href="http://localhost:9999/api/V1/user/logout">Logout</a></span>
             </div>
 
         </div>
@@ -126,18 +126,18 @@
                     </tr>
                     </thead>
 
-                    <div class="form-group mb-2" th:each="link : ${links}">
+                    <div class="form-group mb-2" th:each="userUrl : ${userUrls}">
                         <tbody>
                         <td><span><img src="/images/pandaeyes2.png" alt="Eye" width="40" height="20"/></span>
-                            <div th:text="${urls.visitCount}"></div></td>
+                            <div th:text="${userUrl.visitCount}"></div></td>
                         <td>
                             <a th:href="'http://localhost:9999/api/V1/{shortUrl}?id=' + ${link.id}">
-                                <div th:text="${urls.shortUrl}"></div>
+                                <div th:text="${userUrl.shortUrl}"></div>
                             </a>
                         </td>
-                        <td><div th:text="${urls.description}"></div></td>
-                        <td><div th:text="${urls.expirationDate}"></div></td>
-                        <td><div th:text="${urls.activeStatus}"></div></td>
+                        <td><div th:text="${userUrl.description}"></div></td>
+                        <td><div th:text="${userUrl.expirationDate}"></div></td>
+                        <td><div th:text="${userUrl.activeStatus}"></div></td>
                         <td>
                             <form>
                                 <div class="row">
