@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
-import ua.goit.url.service.UrlService;
+import ua.goit.url.service.UrlServiceImpl;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Url", description = "API to work with Urls")
 public class UrlController {
-    private final UrlService urlService;
+    private final UrlServiceImpl urlService;
 
     @GetMapping("/list")
     @Operation(summary = "Get all urls")
@@ -75,5 +75,12 @@ public class UrlController {
         SecurityContext context = SecurityContextHolder.getContext();
         UserDetails principal = (UserDetails) context.getAuthentication().getPrincipal();
         return principal.getUsername();
+    }
+
+    @PostMapping("/prolong/{id}")
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Url prolong")
+    public void prolongUrl(@PathVariable("id") Long id) {
+        urlService.prolongUrl(id);
     }
 }

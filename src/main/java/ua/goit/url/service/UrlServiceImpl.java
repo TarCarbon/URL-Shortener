@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UrlServiceImpl implements UrlService {
+    private final int PROLONG_DATE = 30;
     private final UrlMapper urlMapper;
     private final UrlRepository urlRepository;
     private final ShortLinkGenerator shortLinkGenerator;
@@ -160,5 +161,12 @@ public class UrlServiceImpl implements UrlService {
             responseCode = HttpURLConnection.HTTP_BAD_REQUEST;
         }
         return responseCode >= 200 && responseCode < 300;
+    }
+
+    public void prolongUrl(Long id){
+        UrlDto urlDto = getById(id);
+        LocalDateTime newExpDate = urlDto.getExpirationDate().plusDays(PROLONG_DATE);
+        urlDto.setExpirationDate(newExpDate);
+        urlRepository.save(urlMapper.toUrlEntity(urlDto));
     }
 }
