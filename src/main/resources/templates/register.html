@@ -50,13 +50,13 @@
             </div>
             <div class="form-group mb-4">
                 <label for="username">Username</label>
-                <input type="text" name="username" class="form-control" id="username" th:value="${users.username}" contenteditable="false" aria-describedby="usernameHelp" placeholder="Enter your username here!">
+                <input type="text" name="username" class="form-control" id="username" th:value="${username}" contenteditable="false" aria-describedby="usernameHelp" placeholder="Enter your username here!">
                 <small id="usernameHelp" class="form-text text-muted">Username from 2 up to 50 symbols.</small>
             </div>
 
             <div class="form-group mb-2">
                 <label for="password">Password</label>
-                <input type="text" name="password" class="form-control" id="password" th:value="${users.password}" contenteditable="false" aria-describedby="passwordHelp" placeholder="Enter your password here!">
+                <input type="text" name="password" class="form-control" id="password" th:value="${password}" contenteditable="false" aria-describedby="passwordHelp" placeholder="Enter your password here!">
                 <small id="passwordHelp" class="form-text text-muted">Password form 8 up to 100 symbols.</small>
             </div>
 
