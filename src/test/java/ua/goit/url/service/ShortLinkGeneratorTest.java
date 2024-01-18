@@ -49,7 +49,7 @@ public class ShortLinkGeneratorTest {
 
         Mockito.when(urlService.listAll()).thenReturn(mockUrls);
 
-        ShortLinkGenerator shortLinkGenerator = new ShortLinkGenerator(urlService);
+        ShortLinkGenerator shortLinkGenerator = new ShortLinkGenerator();
 
         String generatedLink = shortLinkGenerator.generateShortLink();
 
