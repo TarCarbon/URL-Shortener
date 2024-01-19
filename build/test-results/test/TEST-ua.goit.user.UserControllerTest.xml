@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ua.goit.user.UserControllerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-01-19T19:59:54" hostname="bamergf47dh-drg" time="0.096">
+  <properties/>
+  <testcase name="testLoginUser()" classname="ua.goit.user.UserControllerTest" time="0.089"/>
+  <testcase name="testRegisterUser()" classname="ua.goit.user.UserControllerTest" time="0.006"/>
+  <system-out><![CDATA[20:59:51.362 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [ua.goit.user.UserControllerTest]: UserControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:59:51.440 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration ua.goit.ShortenerApplication for test class ua.goit.user.UserControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.1)
+
+2024-01-19T20:59:51.587+01:00  INFO 1261631 --- [    Test worker] ua.goit.user.UserControllerTest          : Starting UserControllerTest using Java 17.0.9 with PID 1261631 (started by root in /home/greenfey/Programs/Project/URL-Shortener)
+2024-01-19T20:59:51.588+01:00  INFO 1261631 --- [    Test worker] ua.goit.user.UserControllerTest          : No active profile set, falling back to 1 default profile: "default"
+2024-01-19T20:59:52.028+01:00  INFO 1261631 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-19T20:59:52.097+01:00  INFO 1261631 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 2 JPA repository interfaces.
+2024-01-19T20:59:52.912+01:00  INFO 1261631 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-01-19T20:59:53.002+01:00  INFO 1261631 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:d36226c8-daa8-41a9-91ea-0b02321d38ab user=SA
+2024-01-19T20:59:53.002+01:00  INFO 1261631 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-01-19T20:59:53.050+01:00  INFO 1261631 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2024-01-19T20:59:53.051+01:00  INFO 1261631 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2024-01-19T20:59:53.051+01:00  INFO 1261631 --- [    Test worker] o.f.c.internal.license.VersionPrinter    : 
+2024-01-19T20:59:53.074+01:00  INFO 1261631 --- [    Test worker] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:d36226c8-daa8-41a9-91ea-0b02321d38ab (H2 2.2)
+2024-01-19T20:59:53.077+01:00  WARN 1261631 --- [    Test worker] o.f.c.internal.database.base.Database    : Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.
+2024-01-19T20:59:53.088+01:00  INFO 1261631 --- [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "PUBLIC"."flyway_schema_history" does not exist yet
+2024-01-19T20:59:53.089+01:00  INFO 1261631 --- [    Test worker] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.006s)
+2024-01-19T20:59:53.093+01:00  INFO 1261631 --- [    Test worker] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "PUBLIC"."flyway_schema_history" ...
+2024-01-19T20:59:53.107+01:00  INFO 1261631 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Current version of schema "PUBLIC": << Empty Schema >>
+2024-01-19T20:59:53.111+01:00  INFO 1261631 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "1 - create tables"
+2024-01-19T20:59:53.133+01:00  INFO 1261631 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Migrating schema "PUBLIC" to version "2 - populate"
+2024-01-19T20:59:53.143+01:00  INFO 1261631 --- [    Test worker] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "PUBLIC", now at version v2 (execution time 00:00.015s)
+2024-01-19T20:59:53.244+01:00  INFO 1261631 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-01-19T20:59:53.295+01:00  INFO 1261631 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-01-19T20:59:53.327+01:00  INFO 1261631 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-01-19T20:59:53.413+01:00  INFO 1261631 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-01-19T20:59:53.828+01:00  INFO 1261631 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-01-19T20:59:53.829+01:00  INFO 1261631 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-01-19T20:59:54.013+01:00  INFO 1261631 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-01-19T20:59:54.234+01:00  WARN 1261631 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-01-19T20:59:54.277+01:00  INFO 1261631 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2024-01-19T20:59:54.407+01:00  INFO 1261631 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@371dc46e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6e82feeb, org.springframework.security.web.context.SecurityContextHolderFilter@4d6f83a5, org.springframework.security.web.header.HeaderWriterFilter@22a9170c, org.springframework.web.filter.CorsFilter@50630ff7, org.springframework.security.web.authentication.logout.LogoutFilter@7d726fa1, ua.goit.jwt.AuthTokenFilter@5c1348c6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@10260f02, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6c303cdc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6ad259d, org.springframework.security.web.session.SessionManagementFilter@2429a26f, org.springframework.security.web.access.ExceptionTranslationFilter@6ddf4303, org.springframework.security.web.access.intercept.AuthorizationFilter@1884db6f]
+2024-01-19T20:59:54.672+01:00  INFO 1261631 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-01-19T20:59:54.672+01:00  INFO 1261631 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-01-19T20:59:54.673+01:00  INFO 1261631 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-01-19T20:59:54.717+01:00  INFO 1261631 --- [    Test worker] ua.goit.user.UserControllerTest          : Started UserControllerTest in 3.221 seconds (process running for 3.736)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
