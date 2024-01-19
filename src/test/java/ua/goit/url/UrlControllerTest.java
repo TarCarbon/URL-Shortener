@@ -21,6 +21,7 @@ import ua.goit.user.service.UserServiceImpl;
 
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -82,11 +83,15 @@ class UrlControllerTest {
     @DisplayName("Create url from invalid source")
     void testCreateLinkFromInvalidSource() {
         CreateUrlRequest request = new CreateUrlRequest("http://invalidsorce.com", "test in progress");
-        try {
-            UrlDto shortUrl = urlService.createUrl("admin", request);
-        } catch (NotAccessibleException e) {
-            assertEquals("Url with url = http://invalidsorce.com is not accessible!", e.getMessage());
-        }
+        given()
+                .header("Authorization", "Bearer " + jwtToken)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/create")
+                .then()
+                .assertThat()
+                .body(containsString("Url with url = http://invalidsorce.com is not accessible!"));
     }
 
     @Test
