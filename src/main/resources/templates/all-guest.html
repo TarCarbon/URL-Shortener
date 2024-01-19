@@ -77,8 +77,7 @@
             </div>
 
             <div class="col-md-1 mt-2">
-                <span class="user" th:text="'Hello, ' + ${username}"></span>!<br>
-                <span class="user"><a href="/api/V1/user/logout">Logout</a></span>
+                <span class="user"><a href="/V2/user/login">Log in</a></span>
             </div>
 
         </div>
@@ -91,13 +90,13 @@
 
         <div class="row">
             <div class="col-md-6 mt-2">
-                <a href="/api/V1/urls/create" class="btn btn-success btn-lg">Create ShortLink</a>
+                <a href="/V2/urls/create" class="btn btn-success btn-lg">Create ShortLink</a>
             </div>
         </div>
     </div>
 
     <div class="container dynamic-container">
-        <form action="/url/all" method="post" class="container col-12">
+        <form action="/V2/urls/all" method="post" class="container col-12">
             <div class="container col-12">
                 <h2 class="table-title">Your library</h2>
                 <table class="table table-bordered table-hover">
@@ -115,8 +114,8 @@
                                     <div class="col-sm-10">
                                         <select class="form-control">
                                             <option><a href="/V2/urls/list">All</a></option>
-                                            <option><a href="/V2/urls/list/user/active">Active</a></option>
-                                            <option><a href="/V2/urls/user/list/inactive">Inactive</a></option>
+                                            <option><a href="/V2/urls/list/active">Active</a></option>
+                                            <option><a href="/V2/urls/list/inactive">Inactive</a></option>
                                         </select>
                                     </div>
                                 </div>
@@ -131,13 +130,13 @@
                         <td><span><img src="/images/pandaeyes2.png" alt="Eye" width="40" height="20"/></span>
                             <div th:text="${userUrl.visitCount}"></div></td>
                         <td>
-                            <a th:href="'/api/V1/{shortUrl}?id=' + ${link.id}">
+                       <!--     <a th:href="'/api/V1/{shortUrl}?id=' + ${link.id}">
                                 <div th:text="${userUrl.shortUrl}"></div>
-                            </a>
+                            </a>-->
                         </td>
                         <td><div th:text="${userUrl.description}"></div></td>
                         <td><div th:text="${userUrl.expirationDate}"></div></td>
-                        <td><div th:text="${userUrl.activeStatus}"></div></td>
+                        <td><!--<div th:text="${userUrl.activeStatus}"></div>--></td>
                         <td>
                             <form>
                                 <div class="row">

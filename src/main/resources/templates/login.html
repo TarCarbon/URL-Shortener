@@ -55,14 +55,14 @@
 
             <div class="form-group mb-2">
                 <label for="password">Password</label>
-                <input type="text" name="password" class="form-control" id="password" contenteditable="false" aria-describedby="noteTitleHelp" placeholder="Enter your password here!">
+                <input type="password" name="password" class="form-control" id="password" contenteditable="false" aria-describedby="noteTitleHelp" placeholder="Enter your password here!">
             </div>
 
-            <button class="btn btn-success btn-lg mt-4" type="submit">Login</button>
+            <button class="btn btn-success btn-lg mt-4" type="submit">Log in</button>
 
-<!--            <div class="alert mt-4" role="alert" th:if="${error}">
-                <p th:text="${error}"></p>
-            </div>-->
+            <div class="alert alert-danger" role="alert" th:if="${errors}" th:each="error: ${errors}">
+                <small th:text="${error}"></small>
+            </div>
         </form>
     </div>
 </main>

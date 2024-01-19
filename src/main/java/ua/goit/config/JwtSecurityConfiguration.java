@@ -17,7 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ua.goit.jwt.AuthEntryPointJwt;
-import ua.goit.jwt.AuthTokenFilter;
+import ua.goit.jwt.AuthJwtTokenFilter;
+import ua.goit.jwt.CookieAuthJwtTokenFilter;
 
 
 @Configuration
@@ -26,15 +27,12 @@ import ua.goit.jwt.AuthTokenFilter;
 public class JwtSecurityConfiguration {
     private final UserDetailsService userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
+    private final AuthJwtTokenFilter authJwtTokenFilter;
+    private final CookieAuthJwtTokenFilter cookieAuthJwtTokenFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
     }
 
     @Bean
@@ -60,13 +58,23 @@ public class JwtSecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/V1/user/**",
                                 "/V1/urls/list",
                                 "V2/user/**",
-                                "V2/urls/**").permitAll()
-                        .requestMatchers("/V1/urls/**").authenticated()
+                                "/V2/urls").permitAll()
+                        .requestMatchers("/V1/urls/**"//,  "V2/urls/**"
+                        ).authenticated()
                         //.requestMatchers("/V2/urls/**").permitAll()
                         //.anyRequest().authenticated())
                         .anyRequest().permitAll())
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authJwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(cookieAuthJwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form.loginPage("/V2/urls")
+                        .permitAll())
+                        //.defaultSuccessUrl("/V2/all", true)
+                        //.usernameParameter("username")
+                        //.passwordParameter("password"))
+                .logout(logout -> logout
+                        .deleteCookies("jwtToken")
+                        .logoutUrl("/logout"))
                 .build();
     }
 }
