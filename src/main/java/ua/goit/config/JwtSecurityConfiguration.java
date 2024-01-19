@@ -69,9 +69,6 @@ public class JwtSecurityConfiguration {
                 .addFilterBefore(cookieAuthJwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form.loginPage("/V2/urls")
                         .permitAll())
-                        //.defaultSuccessUrl("/V2/all", true)
-                        //.usernameParameter("username")
-                        //.passwordParameter("password"))
                 .logout(logout -> logout
                         .deleteCookies("jwtToken")
                         .logoutUrl("/logout"))

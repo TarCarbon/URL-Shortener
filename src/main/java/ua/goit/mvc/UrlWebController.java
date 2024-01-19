@@ -1,11 +1,6 @@
 package ua.goit.mvc;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +15,59 @@ import java.security.Principal;
 public class UrlWebController {
     private final UrlService urlService;
     @GetMapping()
-    public ModelAndView getIndexPage(){
-        return new ModelAndView("index");
+    public String getIndexPage(){
+        return "index";
+    }
+
+    @GetMapping("/register")
+    public ModelAndView getIndexPageForRegister(Principal principal){
+        ModelAndView result = new ModelAndView("index-register");
+        result.addObject("username", principal.getName());
+        return result;
     }
 
     @GetMapping("/list")
-    public ModelAndView getAllLinks(HttpServletResponse response, HttpServletRequest request, Principal principal){
+    public ModelAndView getAllLinks(){
         ModelAndView result = new ModelAndView("all-guest");
         result.addObject("userUrls", urlService.listAll());
+        return result;
+    }
+
+    @GetMapping("/list/active")
+    public ModelAndView getAllActiveLinks(){
+        ModelAndView result = new ModelAndView("all-guest");
+        result.addObject("userUrls", urlService.getActiveUrl());
+        return result;
+    }
+
+    @GetMapping("/list/inactive")
+    public ModelAndView getAllInactiveLinks(){
+        ModelAndView result = new ModelAndView("all-guest");
+        result.addObject("userUrls", urlService.getInactiveUrl());
+        return result;
+    }
+
+    @GetMapping("/list/user")
+    public ModelAndView getAllUsersLinks(Principal principal){
+        ModelAndView result = new ModelAndView("all-user");
+        result.addObject("username", principal.getName());
+        result.addObject("userUrls", urlService.getAllUrlUser(principal.getName()));
+        return result;
+    }
+
+     @GetMapping("/list/user/active")
+    public ModelAndView getAllUsersActiveLinks(Principal principal){
+        ModelAndView result = new ModelAndView("all-user");
+        result.addObject("username", principal.getName());
+        result.addObject("userUrls", urlService.getActiveUrlUser(principal.getName()));
+        return result;
+    }
+
+    @GetMapping("/list/user/inactive")
+    public ModelAndView getAllUsersInactiveLinks(Principal principal){
+        ModelAndView result = new ModelAndView("all-user");
+        result.addObject("username", principal.getName());
+        result.addObject("userUrls", urlService.getInactiveUrlUser(principal.getName()));
         return result;
     }
 }

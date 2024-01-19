@@ -19,7 +19,11 @@ public interface UrlService {
 
     List<UrlDto> getAllUrlUser(String username);
 
-    List<UrlDto> getActiveUrls(String username);
+    List<UrlDto> getActiveUrlUser(String username);
 
-    List<UrlDto> getInactiveUrls(String username);
+    List<UrlDto> getInactiveUrlUser(String username);
+
+    List<UrlDto> getActiveUrl();
+
+    List<UrlDto> getInactiveUrl();
 }

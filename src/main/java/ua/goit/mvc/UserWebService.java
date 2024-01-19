@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+import ua.goit.url.service.UrlService;
 import ua.goit.user.CreateUserRequest;
 import ua.goit.user.service.UserService;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserWebService {
     private final UserService userService;
+    private final UrlService urlService;
 
     public ModelAndView registerUser(CreateUserRequest userRequest) {
         try {
@@ -39,6 +41,7 @@ public class UserWebService {
         }
         ModelAndView result = new ModelAndView("all-user");
         result.addObject("username", getUsername());
+        result.addObject("userUrls", urlService.getAllUrlUser(getUsername()));
         return result;
     }
 

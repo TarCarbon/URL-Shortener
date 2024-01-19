@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ua.goit.url.UrlEntity;
 
+import java.util.Collection;
 import java.util.List;
 
 import java.time.LocalDateTime;
@@ -20,4 +21,10 @@ public interface UrlRepository extends JpaRepository<UrlEntity, Long> {
 
     @Query("SELECT u FROM UrlEntity u WHERE u.user.id = :userId AND u.expirationDate <= :currentDateTime")
     List<UrlEntity> findInactiveUrlsByUserId(@Param("userId") Long userId, @Param("currentDateTime") LocalDateTime currentDateTime);
+
+    @Query("SELECT u FROM UrlEntity u WHERE u.expirationDate > :currentDateTime")
+    List<UrlEntity> findActiveUrls(@Param("currentDateTime") LocalDateTime currentDateTime);
+
+    @Query("SELECT u FROM UrlEntity u WHERE u.expirationDate <= :currentDateTime")
+    List<UrlEntity> findInactiveUrls(@Param("currentDateTime") LocalDateTime currentDateTime);
 }

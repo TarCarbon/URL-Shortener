@@ -124,17 +124,29 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public List<UrlDto> getActiveUrls(String username) {
+    public List<UrlDto> getActiveUrlUser(String username) {
         Long userId = userService.findByUsername(username).getId();
         LocalDateTime currentDateTime = LocalDateTime.now();
         return urlMapper.toUrlDtos(urlRepository.findActiveUrlsByUserId(userId, currentDateTime));
     }
 
     @Override
-    public List<UrlDto> getInactiveUrls(String username) {
+    public List<UrlDto> getInactiveUrlUser(String username) {
         Long userId = userService.findByUsername(username).getId();
         LocalDateTime currentDateTime = LocalDateTime.now();
         return urlMapper.toUrlDtos(urlRepository.findInactiveUrlsByUserId(userId, currentDateTime));
+    }
+
+    @Override
+    public List<UrlDto> getActiveUrl() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return urlMapper.toUrlDtos(urlRepository.findActiveUrls(currentDateTime));
+    }
+
+    @Override
+    public List<UrlDto> getInactiveUrl() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return urlMapper.toUrlDtos(urlRepository.findInactiveUrls(currentDateTime));
     }
 
     public boolean isLinkUnique(String link) {
