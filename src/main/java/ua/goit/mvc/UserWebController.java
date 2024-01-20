@@ -22,7 +22,7 @@ public class UserWebController {
     @PostMapping("/register")
     public ModelAndView postRegisterUser(@Valid @ModelAttribute CreateUserRequest userRequest,
                                          BindingResult bindingResult,
-                                         @RequestParam(name = "register", required = false, defaultValue = "true") Boolean register) {
+                                         @RequestParam(name = "register", required = false) Boolean register) {
         ModelAndView result = new ModelAndView("register");
         if (bindingResult.hasErrors()) {
             return userWebService.getModelAndViewWithErrors(bindingResult, result);

@@ -57,6 +57,13 @@ public class UrlController {
         urlService.deleteById(getUsername(), id);
     }
 
+    @PostMapping("/prolongation/{id}")
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Prolongation url's expiration date")
+    public void prolongationById(@PathVariable("id") Long id) {
+        urlService.prolongation(getUsername(), id);
+    }
+
     @GetMapping("/list/user/active")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Get all active urls for current user")

@@ -35,9 +35,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-11 mt-2">
-                <a href="/api/v1/index.html">
+                <a href="/V2/urls/user">
                     <img
-                            src="./images/panda-logo.webp"
+                            src="/images/panda-logo.webp"
                             alt="Panda_Logo"
                             width="100"
                             height="70"
@@ -47,7 +47,7 @@
 
             <div class="col-md-1 mt-2">
                 <span class="user" th:text="'Hello, ' + ${username}"></span>!<br>
-                <span class="user"><a href="/api/V1/user/logout">Logout</a></span>
+                <span class="user"><a href="/logout">Log out</a></span>
             </div>
 
         </div>
@@ -58,7 +58,7 @@
     <div class="container mt-4">
         <div class="col-md-12 mb-4" style="height: 40px;"></div>
 
-        <form method="post" th:action="/V1/urls/create" class="container col-4 mt-3" style="height: 530px;">
+        <form method="post" action="/V2/urls/create" class="container col-4 mt-3" style="height: 530px;">
 
             <div class="form-group mb-3">
                 <h1>Create ShortLink</h1>
@@ -66,16 +66,20 @@
 
             <div class="form-group mb-3">
                 <label for="url">URL</label>
-                <input type="text" name="url" class="form-control" id="url" th:value="${urls.url}" contenteditable="false" placeholder="Enter URL here!">
+                <input type="text" name="url" class="form-control" id="url" contenteditable="false" placeholder="Enter URL here!">
             </div>
 
             <div class="form-group mb-3">
                 <label for="description">Description</label>
-                <textarea name="description" class="form-control" id="description" th:value="${urls.description}" contenteditable="false" cols="30" rows="5" placeholder="Description is here!"></textarea>
+                <textarea name="description" class="form-control" id="description" contenteditable="false" cols="30" rows="5" placeholder="Description is here!"></textarea>
                 <small id="descriptionForEditHelp" class="form-text text-muted">Descriptioin up to 1000 symbols.</small>
             </div>
 
             <button class="btn btn-success btn-lg mt-1" type="submit">Create</button>
+
+            <div class="alert alert-danger" role="alert" th:if="${errors}" th:each="error: ${errors}">
+                <small th:text="${error}"></small>
+            </div>
         </form>
     </div>
 </main>

@@ -26,4 +26,6 @@ public interface UrlService {
     List<UrlDto> getActiveUrl();
 
     List<UrlDto> getInactiveUrl();
+
+    void prolongation(String username, Long id);
 }

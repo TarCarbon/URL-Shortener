@@ -55,14 +55,22 @@ public class JwtSecurityConfiguration {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/V1/user/**",
-                                "/V1/urls/list",
-                                "V2/user/**",
-                                "/V2/urls").permitAll()
-                        .requestMatchers("/V1/urls/**"//,  "V2/urls/**"
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/V1/urls/create",
+                                "/V1/urls/list/user",
+                                "/V1/urls/edit/**",
+                                "/V1/urls/delete/**",
+                                "/V1/urls/prolongation/**",
+                                "/V1/urls/list/user/active",
+                                "/V1/urls/list/user/inactive",
+                                "/V2/urls/user",
+                                "/V2/urls/list/user",
+                                "/V2/urls/list/user/active",
+                                "/V2/urls/list/user/inactive",
+                                "/V2/urls/edit/**",
+                                "/V2/urls/delete/**",
+                                "/V2/urls/prolongation/**",
+                                "/V2/urls/create/**"
                         ).authenticated()
-                        //.requestMatchers("/V2/urls/**").permitAll()
-                        //.anyRequest().authenticated())
                         .anyRequest().permitAll())
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authJwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
