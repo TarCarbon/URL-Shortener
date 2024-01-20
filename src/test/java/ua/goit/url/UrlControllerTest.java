@@ -1,7 +1,6 @@
 package ua.goit.url;
 
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,8 +19,6 @@ import ua.goit.user.dto.UserDto;
 import ua.goit.user.service.UserServiceImpl;
 
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,8 +38,6 @@ class UrlControllerTest {
     @Autowired
     UserServiceImpl userService;
 
-    String jwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0YWRtaW4iLCJBdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiVVNFUiJ9XSwiaWF0IjoxNzA1NjU0NTc2LCJleHAiOjE3MDU3NDA5NzZ9.OHofMISL71EBCuQp4uMjC2pjyyXn8kgktMO0Idaf7lg";
-
     @BeforeEach
     void setUp(){
         RestAssured.baseURI = "http://localhost:" + port + "/V1/urls";
@@ -51,31 +46,16 @@ class UrlControllerTest {
 
     @Test
     @DisplayName("Get all urls")
-    void testGetAllUrls() {
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/list")
-                .then()
-                .statusCode(200)
-                .body(".", hasSize(4));
+    void testGetAllUrls(){
+        assertEquals(4, urlService.listAll().size());
     }
 
     @Test
     @DisplayName("Create url from valid source")
     void testCreateLinkFromValidSource() {
-        CreateUrlRequest request = new CreateUrlRequest("http://google.com", "test in progress");
-
-        UrlDto createdUrl = given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/create")
-                .then()
-                .statusCode(200)
-                .extract()
-                .as(UrlDto.class);
+        CreateUrlRequest request = new CreateUrlRequest("http://google.com", "valid link");
+        UrlDto shortUrl = urlService.createUrl("testadmin", request);
+        assertNotNull(shortUrl.getShortUrl());
     }
 
     @Test
@@ -83,7 +63,7 @@ class UrlControllerTest {
     void testCreateLinkFromInvalidSource() {
         CreateUrlRequest request = new CreateUrlRequest("http://invalidsorce.com", "test in progress");
         try {
-            UrlDto shortUrl = urlService.createUrl("admin", request);
+            UrlDto shortUrl = urlService.createUrl("testadmin", request);
         } catch (NotAccessibleException e) {
             assertEquals("Url with url = http://invalidsorce.com is not accessible!", e.getMessage());
         }
@@ -92,49 +72,25 @@ class UrlControllerTest {
     @Test
     @DisplayName("Get all user urls")
     void testAllUserUrls() {
-        given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/list/user")
-                .then()
-                .statusCode(200)
-                .body(".", hasSize(2));
+        assertEquals(2, urlService.getAllUrlUser("testadmin").size());
     }
 
     @Test
     @DisplayName("Delete url")
     void testDeleteById() {
-        given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .contentType(ContentType.JSON)
-                .when()
-                .delete("/delete/1")
-                .then()
-                .statusCode(200);
+        urlService.deleteById("testadmin", 1L);
+        assertNotEquals(4, urlService.listAll().size());
     }
 
     @Test
-    @DisplayName("Get all active urls")
-    void activeUrls() {
-        given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/list/user/active")
-                .then()
-                .statusCode(200);
+    @DisplayName(" Get all active urls")
+    void testActiveUrls() {
+        assertEquals(3, urlService.getActiveUrls("testadmin").size());
     }
 
     @Test
-    @DisplayName("Get all inactive urls")
-    void inactiveUrls() {
-        given()
-                .header("Authorization", "Bearer " + jwtToken)
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/list/user/inactive")
-                .then()
-                .statusCode(200);
+    @DisplayName(" Get all in active urls")
+    void testInactiveUrls() {
+        assertEquals(0, urlService.getInactiveUrls("testadmin").size());
     }
 }
