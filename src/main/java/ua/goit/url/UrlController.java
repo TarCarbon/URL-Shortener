@@ -57,18 +57,37 @@ public class UrlController {
         urlService.deleteById(getUsername(), id);
     }
 
+    @PostMapping("/prolongation/{id}")
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Prolongation url's expiration date")
+    public void prolongationById(@PathVariable("id") Long id) {
+        urlService.prolongation(getUsername(), id);
+    }
+
     @GetMapping("/list/user/active")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Get all active urls for current user")
-    public List<UrlDto> ActiveUrls() {
-        return urlService.getActiveUrls(getUsername());
+    public List<UrlDto> ActiveUsersUrls() {
+        return urlService.getActiveUrlUser(getUsername());
     }
 
     @GetMapping("/list/user/inactive")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Get all inactive urls for current user")
+    public List<UrlDto> InactiveUsersUrls() {
+        return urlService.getInactiveUrlUser(getUsername());
+    }
+
+    @GetMapping("/list/active")
+    @Operation(summary = "Get all active urls")
+    public List<UrlDto> ActiveUrls() {
+        return urlService.getActiveUrl();
+    }
+
+    @GetMapping("/list/inactive")
+    @Operation(summary = "Get all inactive urls")
     public List<UrlDto> InactiveUrls() {
-        return urlService.getInactiveUrls(getUsername());
+        return urlService.getInactiveUrl();
     }
 
     private String getUsername() {

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,7 +19,7 @@ public class UrlDto {
     private String url;
     private String description;
     private String username;
-    private LocalDateTime createdDate;
-    private LocalDateTime expirationDate;
+    private LocalDate createdDate;
+    private LocalDate expirationDate;
     private int visitCount;
 }

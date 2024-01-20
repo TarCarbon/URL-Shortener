@@ -18,12 +18,15 @@ import ua.goit.user.service.UserService;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static ua.goit.url.UrlEntity.VALID_DAYS;
 
 
 @Service
@@ -89,7 +92,12 @@ public class UrlServiceImpl implements UrlService {
             throw new NoSuchElementException("Not found url with id: " + id);
         }
         if (!isLinkUnique(request.getShortUrl())) {
-            throw new AlreadyExistUrlException(request.getShortUrl());
+            Long idExistingLink = urlRepository.findByShortUrl(request.getShortUrl())
+                    .orElseThrow()
+                    .getId();
+            if(!Objects.equals(idExistingLink, id)) {
+                throw new AlreadyExistUrlException(request.getShortUrl());
+            }
         }
         if (request.getShortUrl().isBlank()) {
             throw new IllegalArgumentException("Short link can't be empty");
@@ -124,17 +132,48 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public List<UrlDto> getActiveUrls(String username) {
+    public List<UrlDto> getActiveUrlUser(String username) {
         Long userId = userService.findByUsername(username).getId();
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        return urlMapper.toUrlDtos(urlRepository.findActiveUrlsByUserId(userId, currentDateTime));
+        LocalDate currentDate = LocalDate.now();
+        return urlMapper.toUrlDtos(urlRepository.findActiveUrlsByUserId(userId, currentDate));
     }
 
     @Override
-    public List<UrlDto> getInactiveUrls(String username) {
+    public List<UrlDto> getInactiveUrlUser(String username) {
         Long userId = userService.findByUsername(username).getId();
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        return urlMapper.toUrlDtos(urlRepository.findInactiveUrlsByUserId(userId, currentDateTime));
+        LocalDate currentDate = LocalDate.now();
+        return urlMapper.toUrlDtos(urlRepository.findInactiveUrlsByUserId(userId, currentDate));
+    }
+
+    @Override
+    public List<UrlDto> getActiveUrl() {
+        LocalDate currentDate = LocalDate.now();
+        return urlMapper.toUrlDtos(urlRepository.findActiveUrls(currentDate));
+    }
+
+    @Override
+    public List<UrlDto> getInactiveUrl() {
+        LocalDate currentDate = LocalDate.now();
+        return urlMapper.toUrlDtos(urlRepository.findInactiveUrls(currentDate));
+    }
+
+    @Override
+    public void prolongation(String username, Long id) {
+        if (!urlRepository.existsById(id)) {
+            throw new IllegalArgumentException("Url with id " + id + " not found");
+        } else {
+            Optional<UrlEntity> optionalUrl = urlRepository.findById(id);
+            if (optionalUrl.isPresent()) {
+                UrlEntity urlToProlong = optionalUrl.get();
+                if (!urlToProlong.getUser().getUsername().equals(username)) {
+                    throw new AccessDeniedException("Access forbidden");
+                }
+
+                LocalDate newExpDate = urlToProlong.getExpirationDate().plusDays(VALID_DAYS);
+                urlToProlong.setExpirationDate(newExpDate);
+                urlRepository.save(urlToProlong);
+            }
+        }
     }
 
     public boolean isLinkUnique(String link) {

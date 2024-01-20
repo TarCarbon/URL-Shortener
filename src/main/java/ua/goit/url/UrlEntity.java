@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import ua.goit.user.UserEntity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UrlEntity {
 
-    private static final int VALID_DAYS = 30;
+    public static final int VALID_DAYS = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,17 +38,17 @@ public class UrlEntity {
     private UserEntity user;
 
     @Column(nullable = false)
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @Column(nullable = false)
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
 
     @Column(nullable = false)
     private int visitCount;
 
     @PrePersist
     protected void onCreate() {
-        this.createdDate = LocalDateTime.now();
+        this.createdDate = LocalDate.now();
         this.expirationDate = this.createdDate.plusDays(VALID_DAYS);
     }
 }

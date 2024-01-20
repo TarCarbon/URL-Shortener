@@ -17,7 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ua.goit.jwt.AuthEntryPointJwt;
-import ua.goit.jwt.AuthTokenFilter;
+import ua.goit.jwt.AuthJwtTokenFilter;
+import ua.goit.jwt.CookieAuthJwtTokenFilter;
 
 
 @Configuration
@@ -26,15 +27,12 @@ import ua.goit.jwt.AuthTokenFilter;
 public class JwtSecurityConfiguration {
     private final UserDetailsService userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
+    private final AuthJwtTokenFilter authJwtTokenFilter;
+    private final CookieAuthJwtTokenFilter cookieAuthJwtTokenFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
     }
 
     @Bean
@@ -57,14 +55,31 @@ public class JwtSecurityConfiguration {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/V1/user/**",
-                                "/V1/urls/list").permitAll()
-                        .requestMatchers("/V1/urls/**").authenticated()
-                        //.requestMatchers("/V2/urls/**").permitAll()
-                        //.anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/V1/urls/create",
+                                "/V1/urls/list/user",
+                                "/V1/urls/edit/**",
+                                "/V1/urls/delete/**",
+                                "/V1/urls/prolongation/**",
+                                "/V1/urls/list/user/active",
+                                "/V1/urls/list/user/inactive",
+                                "/V2/urls/user",
+                                "/V2/urls/list/user",
+                                "/V2/urls/list/user/active",
+                                "/V2/urls/list/user/inactive",
+                                "/V2/urls/edit/**",
+                                "/V2/urls/delete/**",
+                                "/V2/urls/prolongation/**",
+                                "/V2/urls/create/**"
+                        ).authenticated()
                         .anyRequest().permitAll())
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authJwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(cookieAuthJwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form.loginPage("/V2/urls")
+                        .permitAll())
+                .logout(logout -> logout
+                        .deleteCookies("jwtToken")
+                        .logoutUrl("/logout"))
                 .build();
     }
 }

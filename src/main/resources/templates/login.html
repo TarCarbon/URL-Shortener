@@ -29,7 +29,7 @@
 <body>
     <header class="header" style="position: fixed; top: 0; width: 100%; height: 56px;">
     <div class="container-fluid">
-        <a href="/api/v1/index.html">
+        <a href="/V2/urls">
             <img
                     src="/images/panda-logo.webp"
                     alt="Panda_Logo"
@@ -44,26 +44,24 @@
     <div class="container mt-4">
         <div class="col-md-12 mb-4" style="height: 40px;"></div>
 
-        <form method="post" th:action="/V1/user/login" class="container col-4 mt-4" style="height: 524px;">
+        <form method="post" action="/V2/user/login" class="container col-4 mt-4" style="height: 524px;">
             <div class="form-group mb-4">
                 <h1>Login</h1>
             </div>
             <div class="form-group mb-4">
                 <label for="username">Username</label>
-                <input type="text" name="username" class="form-control" id="username" th:value="${users.username}" contenteditable="false" aria-describedby="noteTitleHelp" placeholder="Enter your e-mail here!">
-                <small id="usernameHelp" class="form-text text-muted">Username from 2 up to 50 symbols.</small>
+                <input type="text" name="username" class="form-control" id="username" contenteditable="false" aria-describedby="noteTitleHelp" placeholder="Enter your username here!">
             </div>
 
             <div class="form-group mb-2">
                 <label for="password">Password</label>
-                <input type="text" name="password" class="form-control" id="password" th:value="${users.password}" contenteditable="false" aria-describedby="noteTitleHelp" placeholder="Enter your password here!">
-                <small id="passwordHelp" class="form-text text-muted">Password from 8 up to 100 symbols.</small>
+                <input type="password" name="password" class="form-control" id="password" contenteditable="false" aria-describedby="noteTitleHelp" placeholder="Enter your password here!">
             </div>
 
-            <button class="btn btn-success btn-lg mt-4" type="submit">Login</button>
+            <button class="btn btn-success btn-lg mt-4" type="submit">Log in</button>
 
-            <div class="alert mt-4" role="alert" th:if="${error}">
-                <p th:text="${error}"></p>
+            <div class="alert alert-danger" role="alert" th:if="${errors}" th:each="error: ${errors}">
+                <small th:text="${error}"></small>
             </div>
         </form>
     </div>
