@@ -14,7 +14,6 @@ import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlServiceImpl;
-import ua.goit.user.service.UserServiceImpl;
 
 import java.util.List;
 
@@ -40,6 +39,12 @@ public class UrlWebController {
         return result;
     }
 
+    @GetMapping("/create")
+    @ResponseStatus(HttpStatus.OK)
+    public ModelAndView showCreatePage() {
+        return new ModelAndView("create");
+    }
+
     @PostMapping(value = "/create")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Create short url")
@@ -47,6 +52,12 @@ public class UrlWebController {
         String username = getUsername();
         service.createUrl(username, request);
         return new ModelAndView("all");
+    }
+
+    @GetMapping("/edit/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ModelAndView showEditPage() {
+        return new ModelAndView("edit");
     }
 
     @PostMapping(value = "/edit/{id}")
