@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
         String username = userRequest.getUsername();
         String password = userRequest.getPassword();
 
+
         if (userRepository.existsByUsername(username)) {
             throw new UserAlreadyExistException(username);
         }

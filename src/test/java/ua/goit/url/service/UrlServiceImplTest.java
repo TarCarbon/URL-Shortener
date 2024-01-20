@@ -1,6 +1,6 @@
 package ua.goit.url.service;
 
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,7 +10,7 @@ import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
 import ua.goit.url.repository.UrlRepository;
-import ua.goit.url.service.UrlServiceImpl;
+
 import ua.goit.user.Role;
 import ua.goit.user.dto.UserDto;
 import ua.goit.user.service.UserService;

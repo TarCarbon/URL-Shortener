@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ShortLinkGeneratorTest {
+
     private List<UrlDto> mockUrls;
 
     @BeforeEach
@@ -49,7 +50,7 @@ public class ShortLinkGeneratorTest {
 
         Mockito.when(urlService.listAll()).thenReturn(mockUrls);
 
-        ShortLinkGenerator shortLinkGenerator = new ShortLinkGenerator(urlService);
+        ShortLinkGenerator shortLinkGenerator = new ShortLinkGenerator();
 
         String generatedLink = shortLinkGenerator.generateShortLink();
 
