@@ -85,12 +85,12 @@ class UrlControllerTest {
     @Test
     @DisplayName(" Get all active urls")
     void testActiveUrls() {
-        assertEquals(3, urlService.getActiveUrls("testadmin").size());
+        assertEquals(3, urlService.getActiveUrlUser("testadmin").size());
     }
 
     @Test
     @DisplayName(" Get all in active urls")
     void testInactiveUrls() {
-        assertEquals(0, urlService.getInactiveUrls("testadmin").size());
+        assertEquals(0, urlService.getInactiveUrlUser("testadmin").size());
     }
 }

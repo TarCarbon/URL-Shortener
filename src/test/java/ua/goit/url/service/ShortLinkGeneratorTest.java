@@ -7,6 +7,7 @@ import ua.goit.url.dto.UrlDto;
 import ua.goit.url.service.ShortLinkGenerator;
 import ua.goit.url.service.UrlServiceImpl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -22,16 +23,16 @@ public class ShortLinkGeneratorTest {
     void setUp() {
         mockUrls = Arrays.asList(
                 createUrlDto(1L, "abc123", "https://www.example.com/1", "null", "navi",
-                        LocalDateTime.now(), LocalDateTime.now().plusDays(30L), 0),
+                        LocalDate.now(), LocalDate.now().plusDays(30L), 0),
                 createUrlDto(2L, "def456", "https://www.example.com/2", "null", "Arih",
-                        LocalDateTime.now(), LocalDateTime.now().plusDays(30L), 0),
+                        LocalDate.now(), LocalDate.now().plusDays(30L), 0),
                 createUrlDto(3L, "uthg0909", "https://www.example.com/2", "null", "Daf",
-                        LocalDateTime.now(), LocalDateTime.now().plusDays(30L), 0)
+                        LocalDate.now(), LocalDate.now().plusDays(30L), 0)
         );
     }
 
     private UrlDto createUrlDto(long id, String shortUrl, String url, String description, String username,
-                                LocalDateTime createdDate, LocalDateTime expirationDate, int visitCount) {
+                                LocalDate createdDate, LocalDate expirationDate, int visitCount) {
         UrlDto urlDto = new UrlDto();
         urlDto.setId(id);
         urlDto.setShortUrl(shortUrl);

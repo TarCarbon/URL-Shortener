@@ -15,6 +15,7 @@ import ua.goit.user.Role;
 import ua.goit.user.dto.UserDto;
 import ua.goit.user.service.UserService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -48,16 +49,16 @@ class UrlServiceImplTest {
 
         List<UrlEntity> mockUrls = Arrays.asList(
                 new UrlEntity(1L, "abc123", "https://www.example.com/1", "null", null,
-                        LocalDateTime.now(), LocalDateTime.now().plusDays(30L), 0),
+                        LocalDate.now(), LocalDate.now().plusDays(30L), 0),
                 new UrlEntity(2L, "def456", "https://www.example.com/2", "null", null,
-                        LocalDateTime.now(), LocalDateTime.now().plusDays(30L), 0)
+                        LocalDate.now(), LocalDate.now().plusDays(30L), 0)
         );
 
         List<UrlDto> mockUrlDtos = Arrays.asList(
                 createUrlDto(1L, "abc123", "https://www.example.com/1", "null", null,
-                        LocalDateTime.now(), LocalDateTime.now().plusDays(30L), 0),
+                        LocalDate.now(), LocalDate.now().plusDays(30L), 0),
                 createUrlDto(2L, "def456", "https://www.example.com/2", "null", null,
-                        LocalDateTime.now(), LocalDateTime.now().plusDays(30L), 0)
+                        LocalDate.now(), LocalDate.now().plusDays(30L), 0)
         );
 
         when(urlRepository.findByUserId(userId)).thenReturn(mockUrls);
@@ -73,7 +74,7 @@ class UrlServiceImplTest {
     }
 
     private UrlDto createUrlDto(Long id, String shortUrl, String url, String description, String username,
-                                LocalDateTime createdDate, LocalDateTime expirationDate, int visitCount) {
+                                LocalDate createdDate, LocalDate expirationDate, int visitCount) {
         UrlDto urlDto = new UrlDto();
         urlDto.setId(id);
         urlDto.setShortUrl(shortUrl);

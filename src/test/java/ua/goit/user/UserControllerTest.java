@@ -13,6 +13,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ua.goit.user.service.UserServiceImpl;
+
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -33,7 +34,7 @@ class UserControllerTest {
     UserServiceImpl userService;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         RestAssured.baseURI = "http://localhost:" + port + "/V1/user";
     }
 
@@ -66,7 +67,8 @@ class UserControllerTest {
                 .post("/register")
                 .then()
                 .statusCode(400)
-                .assertThat().body(containsString("Password should have 8 or more chars and contains numbers"));
+                .assertThat().body(containsString("Password should have 8 or more characters and contains numbers, " +
+                        "letters in upper case and letters in lower case"));
     }
 
     @Test
@@ -102,6 +104,7 @@ class UserControllerTest {
                 .post("/login")
                 .then()
                 .assertThat()
-                .body(containsString("Password should have 8 or more chars and contains numbers"));
-        }
+                .body(containsString("Password should have 8 or more characters and contains numbers, " +
+                        "letters in upper case and letters in lower case"));
+    }
 }
