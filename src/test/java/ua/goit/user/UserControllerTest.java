@@ -43,7 +43,6 @@ class UserControllerTest {
         CreateUserRequest request = new CreateUserRequest();
         request.setUsername("newUser");
         request.setPassword("Password9");
-
         given()
                 .contentType(ContentType.JSON)
                 .body(request)
