@@ -15,6 +15,8 @@ public interface UrlService {
 
     void update(String username, Long id, UpdateUrlRequest url);
 
+    void prolongUrl(String username, Long id);
+
     UrlDto getById(Long id);
 
     List<UrlDto> getAllUrlUser(String username);

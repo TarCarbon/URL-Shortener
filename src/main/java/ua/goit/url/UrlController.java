@@ -57,6 +57,13 @@ public class UrlController {
         urlService.deleteById(getUsername(), id);
     }
 
+    @PostMapping("/prolong/{id}")
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Prolong url")
+    public void prolongUrl(@PathVariable("id") Long id) {
+        urlService.prolongUrl(getUsername(), id);
+    }
+
     @GetMapping("/list/user/active")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Get all active urls for current user")

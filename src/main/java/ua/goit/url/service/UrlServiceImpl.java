@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UrlServiceImpl implements UrlService {
+    private final int PROLONG_DAY = 30;
     private final UrlMapper urlMapper;
     private final UrlRepository urlRepository;
     private final ShortLinkGenerator shortLinkGenerator;
@@ -106,6 +107,24 @@ public class UrlServiceImpl implements UrlService {
         UrlEntity urlEntity = urlMapper.toUrlEntity(dto);
 
         urlRepository.save(urlEntity);
+    }
+
+    public void prolongUrl(String username, Long id){
+        if (!urlRepository.existsById(id)) {
+            throw new IllegalArgumentException("Url with id " + id + " not found");
+        } else {
+            Optional<UrlEntity> optionalUrl = urlRepository.findById(id);
+            if (optionalUrl.isPresent()) {
+                UrlEntity urlToProlong = optionalUrl.get();
+                if (!urlToProlong.getUser().getUsername().equals(username)) {
+                    throw new AccessDeniedException("Access forbidden");
+                }
+
+                LocalDateTime newExpDate = urlToProlong.getExpirationDate().plusDays(PROLONG_DAY);
+                urlToProlong.setExpirationDate(newExpDate);
+                urlRepository.save(urlToProlong);
+            }
+        }
     }
 
     @Override
