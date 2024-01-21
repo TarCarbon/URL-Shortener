@@ -45,7 +45,7 @@ Generated OpenApi documentation avaliable (when app running) [Swagger-ui](http:/
 ### Andrii Nezhynskyi
 - __[GitHub](https://github.com/AndriiNez)__
 
-### Dmitro Abramiuk
+### Dmytro Abramiuk
 - __[GitHub](https://github.com/DmytroAbramiuk)__
 
 ### Lev Livinsky
