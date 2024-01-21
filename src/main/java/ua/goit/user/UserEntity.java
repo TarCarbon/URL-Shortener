@@ -30,5 +30,5 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ToString.Exclude
-    private List<UrlEntity> urls = new ArrayList<>();
+    private final List<UrlEntity> urls = new ArrayList<>();
 }

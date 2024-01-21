@@ -9,19 +9,23 @@ limited time life.
 
 - Spring Boot
 - Spring Data
+- Spring Security
 - PostgreSQL
 - FlyWay
 - OpenApi 3.0 (Swagger)
 - JWT
 - Mockito
+- Testcontainers
 - CI pipeline (GitHub actions)
 - Docker
 - Docker-compose
 
 
-During the development process, two profiles were used. `dev` for design purposes
-(a local version of the H2 database was used for simplicity and testing),
-and the `prod` for production (utilizing PostgreSQL and docker-compose).
+    # Environment variables 
+    DB_PASSWORD=
+    DB_URL=
+    DB_USERNAME=
+    (.env file)
 
 
 Generated OpenApi documentation avaliable (when app running) [Swagger-ui](http://localhost:8080/swagger-ui.html) and
@@ -53,3 +57,5 @@ Generated OpenApi documentation avaliable (when app running) [Swagger-ui](http:/
 
 ### Kostiantyn Oparnykov
 - __[GitHub](https://github.com/KostiantynOparnykov)__
+
+![Java](src/main/resources/static/images/ReadMePanda.png)
