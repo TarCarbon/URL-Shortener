@@ -1,7 +1,7 @@
 package ua.goit.mvc;
 
 import io.restassured.RestAssured;
-import jakarta.validation.Valid;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,19 +15,16 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.MapBindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ua.goit.url.dto.UrlDto;
-import ua.goit.url.repository.UrlRepository;
 import ua.goit.url.request.CreateUrlRequest;
+import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlServiceImpl;
-import ua.goit.url.service.exceptions.NotAccessibleException;
-import ua.goit.user.service.UserServiceImpl;
-
-import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,11 +41,6 @@ class UrlWebControllerTest {
 
     @Autowired
     UrlServiceImpl urlService;
-
-    @Autowired
-    UserServiceImpl userService;
-    @Autowired
-    UrlRepository urlRepository;
     @Autowired
     UrlWebController urlWebController;
 
@@ -91,6 +83,7 @@ class UrlWebControllerTest {
     }
 
     @Test
+    @DisplayName("Get all active links")
     void getAllActiveLinks() {
         ModelAndView result = urlWebController.getAllActiveLinks();
 
@@ -100,6 +93,7 @@ class UrlWebControllerTest {
     }
 
     @Test
+    @DisplayName("Get all inactive links")
     void getAllInactiveLinks() {
         ModelAndView result = urlWebController.getAllInactiveLinks();
 
@@ -109,6 +103,7 @@ class UrlWebControllerTest {
     }
 
     @Test
+    @DisplayName("Show create page")
     void showsCreatePage() {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         Authentication authentication =
@@ -180,45 +175,167 @@ class UrlWebControllerTest {
     @Test
     @DisplayName("Get all user links")
     void getAllUsersLinks() {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken("testadmin", "qwerTy12");
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+
+        ModelAndView model = urlWebController.getAllUsersLinks(authentication);
+
+        assertEquals("all-user", model.getViewName());
+
+        assertTrue(model.getModel().containsKey("username"));
+        Object usernameAttribute = model.getModel().get("username");
+        assertNotNull(usernameAttribute);
+        assertEquals("testadmin", usernameAttribute);
+
+        assertTrue(model.getModel().containsKey("userUrls"));
         assertEquals(2, urlService.getAllUrlUser("testadmin").size());
     }
 
-    /*@Test
-    @DisplayName("Delete link")
-    void delete() {
-        urlService.deleteById("testadmin", 1L);
-        assertThrows(IllegalArgumentException.class, () -> urlService.deleteById("testadmin", 1L));
-
-//        assertEquals(4, urlService.listAll().size());
-    }*/
-
     @Test
-    @DisplayName(" Get all users active links")
+    @DisplayName("Get all users active links")
     void getAllUsersActiveLinks() {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken("testadmin", "qwerTy12");
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+
+        ModelAndView model = urlWebController.getAllUsersActiveLinks(authentication);
+
+        assertEquals("all-user", model.getViewName());
+
+        assertTrue(model.getModel().containsKey("username"));
+        Object usernameAttribute = model.getModel().get("username");
+        assertNotNull(usernameAttribute);
+        assertEquals("testadmin", usernameAttribute);
+
+        assertTrue(model.getModel().containsKey("userUrls"));
         assertEquals(3, urlService.getActiveUrlUser("testadmin").size());
     }
 
     @Test
-    @DisplayName(" Get all users inactive links")
+    @DisplayName("Get all users inactive links")
     void getAllUsersInactiveLinks() {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken("testadmin", "qwerTy12");
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+
+        ModelAndView model = urlWebController.getAllUsersInactiveLinks(authentication);
+
+        assertEquals("all-user", model.getViewName());
+
+        assertTrue(model.getModel().containsKey("username"));
+        Object usernameAttribute = model.getModel().get("username");
+        assertNotNull(usernameAttribute);
+        assertEquals("testadmin", usernameAttribute);
+
+        assertTrue(model.getModel().containsKey("userUrls"));
         assertEquals(0, urlService.getInactiveUrlUser("testadmin").size());
     }
 
     @Test
-    void edit() {
+    @DisplayName("Show Edit page")
+    @Transactional
+    void showEditPage() {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken("testadmin", "qwerTy12");
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+
+        ModelAndView model = urlWebController.edit(1L, authentication);
+
+        assertEquals("edit", model.getViewName());
+
+        assertTrue(model.getModel().containsKey("username"));
+        Object usernameAttribute = model.getModel().get("username");
+        assertNotNull(usernameAttribute);
+        assertEquals("testadmin", usernameAttribute);
+
+        assertTrue(model.getModel().containsKey("id"));
+        Object idAttribute = model.getModel().get("id");
+        assertNotNull(idAttribute);
+        assertEquals(1L, idAttribute);
+
+        assertTrue(model.getModel().containsKey("urls"));
+        Object urlsAttribute = model.getModel().get("urls");
+        assertNotNull(urlsAttribute);
+
+        String createdString = "2024-01-18 12:34:56";
+        String expirationString = "2024-02-18 12:34:56";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDate created = LocalDate.parse(createdString,formatter);
+        LocalDate expiration = LocalDate.parse(expirationString,formatter);
+
+        UrlDto urlDto = new UrlDto(1L, "testurl1", "https://some_long_named_portal.com/", "for test only", "testadmin", created, expiration, 1);
+        assertEquals(urlDto, urlService.getById(1L));
     }
 
     @Test
+    @DisplayName("Edit link")
+    @Transactional
     void postEdit() {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken("testadmin", "qwerTy12");
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+
+        UpdateUrlRequest request = new UpdateUrlRequest("edited12", "https://www.google.com/", "Edited");
+        BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "UpdateUrlRequest");
+
+        ModelAndView model = urlWebController.postEdit(request, bindingResult, 1L, authentication);
+
+        assertEquals("all-user", model.getViewName());
+        assertTrue(model.getModel().containsKey("username"));
+        Object usernameAttribute = model.getModel().get("username");
+        assertNotNull(usernameAttribute);
+        assertEquals("testadmin", usernameAttribute);
+
+        String createdString = "2024-01-18 12:34:56";
+        String expirationString = "2024-02-18 12:34:56";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDate created = LocalDate.parse(createdString,formatter);
+        LocalDate expiration = LocalDate.parse(expirationString,formatter);
+        UrlDto editedUrlDto = new UrlDto(1L, "edited12", "https://www.google.com/", "Edited", "testadmin", created, expiration, 1);
+        assertEquals(editedUrlDto, urlService.getById(1L));
     }
-
-
 
     @Test
+    @DisplayName("Prolong link")
+    @Transactional
     void prolongation() {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken("testadmin", "qwerTy12");
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+
+        UrlDto urlDto = urlService.getById(1L);
+        LocalDate expirationDate = urlDto.getExpirationDate();
+
+        urlWebController.prolongation(1L, authentication);
+        UrlDto urlDtoProlonged = urlService.getById(1L);
+        LocalDate expirationDateProlonged = urlDtoProlonged.getExpirationDate();
+
+        assertEquals(expirationDateProlonged, expirationDate.plusDays(10));
     }
 
+@Test
+    @DisplayName("Delete link")
+    void delete() {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken("testadmin", "qwerTy12");
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
 
-
-
+        urlWebController.delete(2L, authentication);
+        assertEquals(4, urlService.listAll().size());
+    }
 }
