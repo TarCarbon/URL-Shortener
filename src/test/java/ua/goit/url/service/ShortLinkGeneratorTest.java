@@ -4,11 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ua.goit.url.dto.UrlDto;
-import ua.goit.url.service.ShortLinkGenerator;
-import ua.goit.url.service.UrlServiceImpl;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 

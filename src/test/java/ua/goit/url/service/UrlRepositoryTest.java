@@ -10,10 +10,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import ua.goit.url.UrlEntity;
 import ua.goit.url.repository.UrlRepository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
