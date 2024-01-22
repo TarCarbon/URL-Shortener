@@ -54,13 +54,18 @@
         select.form-control {
             font-size: 12px;
         }
-
-
-
-
-
     </style>
     <title>Panda ShortLinks</title>
+    <script>
+        // Викликається при завантаженні сторінки
+        window.onload = function() {
+          // Новий URL
+          var newUrl = '/V2/urls/list/user';
+
+          // Змінюємо URL сторінки без перезавантаження
+          window.history.pushState({}, '', newUrl);
+        };
+    </script>
 </head>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
