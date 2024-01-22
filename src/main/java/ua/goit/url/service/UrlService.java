@@ -1,9 +1,11 @@
 package ua.goit.url.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UrlService {
@@ -28,4 +30,6 @@ public interface UrlService {
     List<UrlDto> getInactiveUrl();
 
     void prolongation(String username, Long id);
+
+    void redirectToUrl(String shotUrl, HttpServletResponse response) throws IOException;
 }

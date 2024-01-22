@@ -145,13 +145,16 @@
                             <div th:text="${userUrl.visitCount}"></div>
                         </td>
                         <td>
-                            <div th:text="${userUrl.shortUrl}"></div>
-                            <!-- <a th:href="'/api/V1/{shortUrl}?id=' + ${link.id}">
-                                 <div th:text="${userUrl.shortUrl}"></div>
-                             </a>-->
+                            <a target="_blank" href="#"
+                               th:href="@{/V2/urls/{shortUrl}(shortUrl=${userUrl.shortUrl})}">
+                                <div th:text="${userUrl.shortUrl}"></div>
+                            </a>
                         </td>
                         <td>
-                            <div th:text="${userUrl.url}"></div>
+                            <a target="_blank" href="#"
+                               th:href="@{/V2/urls/{shortUrl}(shortUrl=${userUrl.shortUrl})}">
+                                <div th:text="${userUrl.url}"></div>
+                            </a>
                         </td>
                         <td>
                             <div th:text="${userUrl.description}"></div>

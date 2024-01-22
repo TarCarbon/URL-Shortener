@@ -1,9 +1,9 @@
 package ua.goit.mvc;
 
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +12,7 @@ import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
 
+import java.io.IOException;
 import java.security.Principal;
 
 @Controller
@@ -38,6 +39,11 @@ public class UrlWebController {
         ModelAndView result = new ModelAndView("all-guest");
         result.addObject("userUrls", urlService.listAll());
         return result;
+    }
+
+    @GetMapping("/{shortUrl}")
+    public void redirectToUrl(@PathVariable("shortUrl") String shortUrl, HttpServletResponse response) throws IOException {
+        urlService.redirectToUrl(shortUrl, response);
     }
 
     @GetMapping("/list/active")

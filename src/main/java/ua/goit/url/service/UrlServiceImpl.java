@@ -1,5 +1,6 @@
 package ua.goit.url.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -95,7 +95,7 @@ public class UrlServiceImpl implements UrlService {
             Long idExistingLink = urlRepository.findByShortUrl(request.getShortUrl())
                     .orElseThrow()
                     .getId();
-            if(!Objects.equals(idExistingLink, id)) {
+            if (!Objects.equals(idExistingLink, id)) {
                 throw new AlreadyExistUrlException(request.getShortUrl());
             }
         }
@@ -174,6 +174,18 @@ public class UrlServiceImpl implements UrlService {
                 urlRepository.save(urlToProlong);
             }
         }
+    }
+
+    @Override
+    public void redirectToUrl(String shotUrl, HttpServletResponse response) throws IOException {
+        UrlEntity urlEntity = urlRepository.findByShortUrl(shotUrl)
+                .orElseThrow(() -> new IllegalArgumentException("Url with short url = " + shotUrl + " not found"));
+
+        urlEntity.setVisitCount(urlEntity.getVisitCount() + 1);
+        urlEntity.setExpirationDate(LocalDate.now().plusDays(VALID_DAYS));
+
+        urlRepository.save(urlEntity);
+        response.sendRedirect(urlEntity.getUrl());
     }
 
     public boolean isLinkUnique(String link) {
