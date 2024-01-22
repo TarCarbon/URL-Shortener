@@ -85,21 +85,17 @@ public class UrlController {
     @SecurityRequirement(name = "JWT")
     public ResponseEntity<Void> redirectToOriginalUrl(@PathVariable String shortUrl) {
         if (shortUrl == null || shortUrl.isEmpty()) {
-            // Handle the case where shortUrl is empty or null
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         UrlEntity urlEntity = urlService.getByShortUrl(shortUrl);
 
         if (urlEntity != null && urlServiceimpl.isUrlAccessible(urlEntity.getUrl())) {
-            // Зміна кількості переходів
             urlEntity.setVisitCount(urlEntity.getVisitCount() + 1);
             urlService.updateUrl(urlEntity);
 
-            // Редірект на оригінальний URL
             return new ResponseEntity<>(HttpStatus.FOUND);
         } else {
-            // Обробка помилки, наприклад, якщо посилання не знайдено або недоступне
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
