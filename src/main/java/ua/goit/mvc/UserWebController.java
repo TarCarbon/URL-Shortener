@@ -44,4 +44,9 @@ public class UserWebController {
         }
         return userWebService.loginUser(userRequest);
     }
+
+    @GetMapping("/logout")
+    public String getLogoutUser() {
+        return "index";
+    }
 }

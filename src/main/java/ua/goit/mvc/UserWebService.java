@@ -1,5 +1,7 @@
 package ua.goit.mvc;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.core.context.SecurityContext;
@@ -58,5 +60,10 @@ public class UserWebService {
         SecurityContext context = SecurityContextHolder.getContext();
         UserDetails principal = (UserDetails) context.getAuthentication().getPrincipal();
         return principal.getUsername();
+    }
+
+    public ModelAndView logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        userService.logoutUser(request, response);
+        return new ModelAndView("index");
     }
 }
