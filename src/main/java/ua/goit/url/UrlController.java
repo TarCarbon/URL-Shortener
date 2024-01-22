@@ -3,6 +3,7 @@ package ua.goit.url;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -88,6 +90,12 @@ public class UrlController {
     @Operation(summary = "Get all inactive urls")
     public List<UrlDto> InactiveUrls() {
         return urlService.getInactiveUrl();
+    }
+
+    @GetMapping("/{shortUrl}")
+    @Operation(summary = "Redirect by short url")
+    public void redirectToUrl(@PathVariable("shortUrl") String shortUrl, HttpServletResponse response) throws IOException {
+        urlService.redirectToUrl(shortUrl, response);
     }
 
     private String getUsername() {

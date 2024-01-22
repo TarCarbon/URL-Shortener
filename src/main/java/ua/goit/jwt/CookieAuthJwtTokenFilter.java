@@ -41,7 +41,6 @@ public final class CookieAuthJwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        log.info("In jwt cookie auth filter");
         Map<String, String[]> parameterMap = request.getParameterMap();
 
         String username = request.getParameter("username");
