@@ -2,6 +2,8 @@ package ua.goit.mvc;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,14 @@ public class UrlWebController {
     public ModelAndView getAllInactiveLinks() {
         ModelAndView result = new ModelAndView("all-guest");
         result.addObject("userUrls", urlService.getInactiveUrl());
+        return result;
+    }
+
+    @GetMapping("/list/auth")
+    public ModelAndView getAllLinksAuth(Principal principal) {
+        ModelAndView result = new ModelAndView("all-guest");
+        result.addObject("username", principal.getName());
+        result.addObject("userUrls", urlService.listAll());
         return result;
     }
 

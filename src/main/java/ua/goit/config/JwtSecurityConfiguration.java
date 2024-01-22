@@ -64,6 +64,7 @@ public class JwtSecurityConfiguration {
                                 "/V1/urls/list/user/inactive",
                                 "/V2/urls/user",
                                 "/V2/urls/list/user",
+                                "/V2/urls/list/auth",
                                 "/V2/urls/list/user/active",
                                 "/V2/urls/list/user/inactive",
                                 "/V2/urls/edit/**",

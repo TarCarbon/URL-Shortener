@@ -55,6 +55,7 @@
             font-size: 12px;
         }
 
+
     </style>
     <title>Panda ShortLinks</title>
 </head>
@@ -67,7 +68,7 @@
 
 <body>
 <header class="header" style="position: fixed; top: 0; width: 100%; height: 56px;">
-    <div class="container-fluid">
+    <div class="container-fluid" sec:authorize="isAnonymous()">
         <div class="row">
             <div class="col-md-11 mt-2">
                 <a href="/V2/urls">
@@ -82,6 +83,30 @@
 
             <div class="col-md-1 mt-2">
                 <span class="user"><a href="/V2/user/login">Log in</a></span>
+                <br>
+                <span class="user"><a href="/V2/user/register">Register</a></span>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="container-fluid" sec:authorize="isAuthenticated()">
+        <div class="row">
+            <div class="col-md-11 mt-2">
+                <a href="/V2/urls/user">
+                    <img
+                            src="/images/panda-logo.webp"
+                            alt="Panda_Logo"
+                            width="100"
+                            height="70"
+                    />
+                </a>
+            </div>
+
+            <div class="col-md-1 mt-2">
+                <span class="user" th:text="'Hello, ' + ${username}"></span>!<br>
+                <span class="user"><a href="/logout">Log out</a></span>
             </div>
 
         </div>
@@ -91,6 +116,12 @@
 <main>
     <div class="container mt-4">
         <div class="col-md-12 mb-4" style="height: 40px;"></div>
+
+        <div class="row" sec:authorize="isAuthenticated()">
+            <div class="col mt-4">
+                <a href="/V2/urls/list/user" class="btn btn-success btn-lg">My links</a>
+            </div>
+        </div>
     </div>
 
     <div class="container dynamic-container">
