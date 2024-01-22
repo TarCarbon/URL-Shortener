@@ -84,6 +84,11 @@ public class UrlController {
     @GetMapping("/redirect/{shortUrl}")
     @SecurityRequirement(name = "JWT")
     public ResponseEntity<Void> redirectToOriginalUrl(@PathVariable String shortUrl) {
+        if (shortUrl == null || shortUrl.isEmpty()) {
+            // Handle the case where shortUrl is empty or null
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         UrlEntity urlEntity = urlService.getByShortUrl(shortUrl);
 
         if (urlEntity != null && urlServiceimpl.isUrlAccessible(urlEntity.getUrl())) {
