@@ -4,10 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import ua.goit.config.CachingConfig;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
@@ -21,6 +26,7 @@ import java.util.List;
 @Tag(name = "Url", description = "API to work with Urls")
 public class UrlController {
     private final UrlService urlService;
+    private final SimpleCacheManager simpleCacheManager;
 
     @GetMapping("/list")
     @Operation(summary = "Get all urls")
@@ -45,14 +51,16 @@ public class UrlController {
     @PostMapping("/edit/{id}")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Url edit")
-    public void updateUrl(@PathVariable("id") Long id,
+    @CachePut(value = "urls", key = "#p0")
+    public UrlDto updateUrl(@PathVariable("id") Long id,
                           @RequestBody UpdateUrlRequest request) {
-        urlService.update(getUsername(), id, request);
+        return urlService.update(getUsername(), id, request);
     }
 
     @DeleteMapping("/delete/{id}")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Delete url")
+    @CacheEvict(value = "urls", key = "#p0")
     public void deleteById(@PathVariable("id") Long id) {
         urlService.deleteById(getUsername(), id);
     }
@@ -88,6 +96,10 @@ public class UrlController {
     @Operation(summary = "Get all inactive urls")
     public List<UrlDto> InactiveUrls() {
         return urlService.getInactiveUrl();
+    }
+    @GetMapping("list/{id}")
+    public UrlDto getById(@PathVariable("id") Long id){
+        return urlService.getById(id);
     }
 
     private String getUsername() {

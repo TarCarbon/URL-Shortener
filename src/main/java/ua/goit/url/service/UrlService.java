@@ -13,7 +13,7 @@ public interface UrlService {
 
     void deleteById(String username, Long id);
 
-    void update(String username, Long id, UpdateUrlRequest url);
+    UrlDto update(String username, Long id, UpdateUrlRequest url);
 
     UrlDto getById(Long id);
 

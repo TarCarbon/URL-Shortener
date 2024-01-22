@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-image: url('/images/bamboo7.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+
+        header {
+            background-color: #e4faac;
+        }
+
+        footer {
+            background-color: #87c454;
+        }
+
+        .user {
+            font-weight: bold;
+        }
+    </style>
+    <title>Panda Edit ShortLink</title>
+</head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<body>
+    <header class="header" style="position: fixed; top: 0; width: 100%; height: 56px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-11 mt-2">
+                <a href="/V2/urls/user">
+                    <img
+                            src="/images/panda-logo.webp"
+                            alt="Panda_Logo"
+                            width="100"
+                            height="70"
+                    />
+                </a>
+            </div>
+
+            <div class="col-md-1 mt-2">
+                <span class="user" th:text="'Hello, ' + ${username}"></span>!<br>
+                <span class="user"><a href="/logout">Log out</a></span>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container mt-4">
+        <div class="col-md-12 mb-4" style="height: 40px;"></div>
+
+        <form method="post" action="/V2/urls/edit" class="container col-4 mt-4" style="height: 524px;">
+            <div class="form-group mb-4">
+                <h1>Edit your ShortLink</h1>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="url">URL</label>
+                <input type="text" name="url" class="form-control" id="url" th:value="${urls.url}" contenteditable="false" aria-describedby="urlHelp" placeholder="Edit URL here!">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="shortUrl">Short link</label>
+                <input type="text" name="shortUrl" class="form-control" id="shortUrl" th:value="${urls.shortUrl}" contenteditable="false" aria-describedby="shortlinkHelp" placeholder="Edit your ShortLink here!">
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="description">Description</label>
+                <textarea name="description" class="form-control" id="description" th:text="${urls.description}" contenteditable="false" cols="30" rows="5" placeholder="Description is here!"></textarea>
+                <small id="descriptionForEditHelp" class="form-text text-muted">Descriptioin up to 1000 symbols.</small>
+            </div>
+            <input type="hidden" th:value="${id}" name = "id" />
+
+            <button class="btn btn-success btn-lg mt-2" type="submit">Save</button>
+
+            <div class="alert alert-danger" role="alert" th:if="${errors}" th:each="error: ${errors}">
+                <small th:text="${error}"></small>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer class="footer" style="position: fixed; bottom: 0; width: 100%; height: 80px;">
+    <div class="container-fluid" style="height: 80px;">
+        <img
+                src="/images/pandagoes.svg"
+                alt="Panda"
+                width="100"
+                height="70"
+        />
+    </div>
+</footer>
+</body>
+</html>

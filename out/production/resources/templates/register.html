@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-image: url('/images/bamboo7.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+
+        header {
+            background-color: #e4faac;
+        }
+
+        footer {
+            background-color: #87c454;
+        }
+    </style>
+    <title>Panda Register</title>
+</head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<body>
+    <header class="header" style="position: fixed; top: 0; width: 100%; height: 56px;">
+    <div class="container-fluid">
+        <a href="/V2/urls">
+            <img
+                    src="/images/panda-logo.webp"
+                    alt="Panda_Logo"
+                    width="100"
+                    height="70"
+            />
+        </a>
+    </div>
+</header>
+
+<main>
+    <div class="container mt-4">
+        <div class="col-md-12 mb-4" style="height: 40px;"></div>
+
+        <form method="post" action="/V2/user/register" class="container col-4 mt-4" style="height: 524px;">
+            <div class="form-group mb-4">
+                <h1>Register</h1>
+            </div>
+            <div class="form-group mb-4">
+                <label for="username">Username</label>
+                <input type="text" name="username" class="form-control" id="username" contenteditable="false" aria-describedby="usernameHelp" placeholder="Enter your username here!">
+                <small id="usernameHelp" class="form-text text-muted">Username must be at least 2 characters
+                    long</small>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password" contenteditable="false" aria-describedby="passwordHelp" placeholder="Enter your password here!">
+                <small id="passwordHelp" class="form-text text-muted">Password should have 8 or more characters and
+                    contains numbers, letters in upper case and letters in lower case</small>
+                <input type="hidden" name="register">
+            </div>
+
+            <button class="btn btn-success btn-lg mt-4" type="submit">Submit</button>
+
+            <div class="alert alert-danger" role="alert" th:if="${errors}" th:each="error: ${errors}">
+                <small th:text="${error}"></small>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer class="footer" style="position: fixed; bottom: 0; width: 100%; height: 80px;">
+    <div class="container-fluid" style="height: 80px;">
+        <img
+                src="/images/pandagoes.svg"
+                alt="Panda"
+                width="100"
+                height="70"
+        />
+    </div>
+</footer>
+
+    <script crossorigin="anonymous"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy6pHaWE5wE1a6PVI9bhv7pBBaP6HUP"
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

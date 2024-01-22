@@ -1,6 +1,7 @@
 package ua.goit.url.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;

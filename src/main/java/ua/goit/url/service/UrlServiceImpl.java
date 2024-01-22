@@ -1,9 +1,16 @@
 package ua.goit.url.service;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import ua.goit.config.CachingConfig;
 import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.mapper.UrlMapper;
@@ -16,6 +23,7 @@ import ua.goit.user.UserEntity;
 import ua.goit.user.service.UserService;
 
 import java.io.IOException;
+import java.lang.reflect.Parameter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -44,6 +52,7 @@ public class UrlServiceImpl implements UrlService {
 
     @Override
     @Transactional
+    @Cacheable("urls")
     public UrlDto createUrl(String username, CreateUrlRequest url) {
         String originalUrl = getFullUrl(url.getUrl());
 
@@ -86,7 +95,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public void update(String username, Long id, UpdateUrlRequest request) {
+    public UrlDto update(String username, Long id, UpdateUrlRequest request) {
         UrlDto dto = getById(id);
         if (Objects.isNull(dto)) {
             throw new NoSuchElementException("Not found url with id: " + id);
@@ -113,11 +122,13 @@ public class UrlServiceImpl implements UrlService {
         dto.setDescription(request.getDescription());
         UrlEntity urlEntity = urlMapper.toUrlEntity(dto);
 
-        urlRepository.save(urlEntity);
+        return urlMapper.toUrlDto(urlRepository.save(urlEntity));
     }
 
     @Override
+    @Cacheable( value = "urls", key = "#p0")
     public UrlDto getById(Long id) {
+        System.out.println("get");
         return urlMapper.toUrlDto(urlRepository.getReferenceById(id));
     }
 
