@@ -169,8 +169,7 @@ public class UrlServiceImpl implements UrlService {
                     throw new AccessDeniedException("Access forbidden");
                 }
 
-                LocalDate newExpDate = urlToProlong.getExpirationDate().plusDays(VALID_DAYS);
-                urlToProlong.setExpirationDate(newExpDate);
+                urlToProlong.setExpirationDate(LocalDate.now().plusDays(VALID_DAYS));
                 urlRepository.save(urlToProlong);
             }
         }
