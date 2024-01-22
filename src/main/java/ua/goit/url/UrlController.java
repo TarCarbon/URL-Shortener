@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,7 @@ import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
 import ua.goit.url.service.UrlService;
+import ua.goit.url.service.UrlServiceImpl;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ import java.util.List;
 @Tag(name = "Url", description = "API to work with Urls")
 public class UrlController {
     private final UrlService urlService;
+    private final UrlServiceImpl urlServiceimpl;
 
     @GetMapping("/list")
     @Operation(summary = "Get all urls")
@@ -76,4 +80,23 @@ public class UrlController {
         UserDetails principal = (UserDetails) context.getAuthentication().getPrincipal();
         return principal.getUsername();
     }
+
+    @GetMapping("/redirect/{shortUrl}")
+    @SecurityRequirement(name = "JWT")
+    public ResponseEntity<Void> redirectToOriginalUrl(@PathVariable String shortUrl) {
+        UrlEntity urlEntity = urlService.getByShortUrl(shortUrl);
+
+        if (urlEntity != null && urlServiceimpl.isUrlAccessible(urlEntity.getUrl())) {
+            // Зміна кількості переходів
+            urlEntity.setVisitCount(urlEntity.getVisitCount() + 1);
+            urlService.updateUrl(urlEntity);
+
+            // Редірект на оригінальний URL
+            return new ResponseEntity<>(HttpStatus.FOUND);
+        } else {
+            // Обробка помилки, наприклад, якщо посилання не знайдено або недоступне
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

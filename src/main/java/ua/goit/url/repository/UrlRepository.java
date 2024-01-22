@@ -20,4 +20,6 @@ public interface UrlRepository extends JpaRepository<UrlEntity, Long> {
 
     @Query("SELECT u FROM UrlEntity u WHERE u.user.id = :userId AND u.expirationDate <= :currentDateTime")
     List<UrlEntity> findInactiveUrlsByUserId(@Param("userId") Long userId, @Param("currentDateTime") LocalDateTime currentDateTime);
+
+    UrlEntity findByShortUrl(String shortUrl);
 }

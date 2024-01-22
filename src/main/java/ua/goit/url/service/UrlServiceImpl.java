@@ -148,7 +148,7 @@ public class UrlServiceImpl implements UrlService {
         return url;
     }
 
-    private boolean isUrlAccessible(String originalUrl) {
+    public boolean isUrlAccessible(String originalUrl) {
         int responseCode;
 
         try {
@@ -160,5 +160,15 @@ public class UrlServiceImpl implements UrlService {
             responseCode = HttpURLConnection.HTTP_BAD_REQUEST;
         }
         return responseCode >= 200 && responseCode < 300;
+    }
+
+    @Override
+    public UrlEntity getByShortUrl(String shortUrl) {
+        return urlRepository.findByShortUrl(shortUrl);
+    }
+
+    @Override
+    public void updateUrl(UrlEntity urlEntity) {
+        urlRepository.save(urlEntity);
     }
 }

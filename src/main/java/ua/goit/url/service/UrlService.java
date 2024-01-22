@@ -1,5 +1,6 @@
 package ua.goit.url.service;
 
+import ua.goit.url.UrlEntity;
 import ua.goit.url.dto.UrlDto;
 import ua.goit.url.request.CreateUrlRequest;
 import ua.goit.url.request.UpdateUrlRequest;
@@ -22,4 +23,8 @@ public interface UrlService {
     List<UrlDto> getActiveUrls(String username);
 
     List<UrlDto> getInactiveUrls(String username);
+
+    UrlEntity getByShortUrl(String shortUrl);
+
+    void updateUrl(UrlEntity urlEntity);
 }
