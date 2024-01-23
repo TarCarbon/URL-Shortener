@@ -47,7 +47,8 @@ public class UrlWebService {
         }
         ModelAndView result = new ModelAndView("all-user");
         result.addObject("username", principal.getName());
-        result.addObject("userUrls", urlService.getAllUrlUser(principal.getName()));
+        result.addObject("userUrls", urlService.getActiveUrlUser(principal.getName()));
+        result.addObject("userUrlsInactive", urlService.getInactiveUrlUser(principal.getName()));
         return result;
     }
 
@@ -75,7 +76,8 @@ public class UrlWebService {
         }
         ModelAndView result = new ModelAndView("all-user");
         result.addObject("username", principal.getName());
-        result.addObject("userUrls", urlService.getAllUrlUser(principal.getName()));
+        result.addObject("userUrls", urlService.getActiveUrlUser(principal.getName()));
+        result.addObject("userUrlsInactive", urlService.getInactiveUrlUser(principal.getName()));
         return result;
     }
 }
