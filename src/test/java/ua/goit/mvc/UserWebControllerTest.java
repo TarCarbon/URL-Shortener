@@ -59,6 +59,13 @@ public class UserWebControllerTest {
     }
 
 
-
+    @org.junit.jupiter.api.Test
+    @DisplayName("test to open a page for registration")
+    public void openLoginPageTest() throws Exception{
+        this.mockMvc.perform(get("/V2/user/login"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("login")));
+    }
 
 }
