@@ -153,6 +153,7 @@
                     </tr>
                     </thead>
 
+                   <!-- Active links-->
                     <div class="form-group mb-2" th:each="userUrl : ${userUrls}">
                         <tbody>
                         <td align="center"><span><img src="/images/pandaeyes2.png" alt="Eye" width="40"
@@ -176,6 +177,28 @@
                         </td>
                         <td>
                             <div th:text="${userUrl.expirationDate}"></div>
+                        </td>
+                        </tbody>
+                    </div>
+
+                    <!-- Inactive links-->
+                    <div class="form-group mb-2" th:each="userUrlInactive : ${userUrlsInactive}">
+                        <tbody>
+                        <td align="center"><span><img src="/images/pandaeyes2.png" alt="Eye" width="40"
+                                                      height="20"/></span>
+                            <div th:text="${userUrlInactive.visitCount}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${userUrlInactive.shortUrl}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${userUrlInactive.url}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${userUrlInactive.description}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${userUrlInactive.expirationDate}"></div>
                         </td>
                         </tbody>
                     </div>

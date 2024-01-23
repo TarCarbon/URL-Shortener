@@ -41,7 +41,8 @@ public class UserWebService {
         }
         ModelAndView result = new ModelAndView("all-user");
         result.addObject("username", getUsername());
-        result.addObject("userUrls", urlService.getAllUrlUser(getUsername()));
+        result.addObject("userUrls", urlService.getActiveUrlUser(getUsername()));
+        result.addObject("userUrlsInactive", urlService.getInactiveUrlUser(getUsername()));
         return result;
     }
 

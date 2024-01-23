@@ -184,6 +184,10 @@ public class UrlServiceImpl implements UrlService {
         UrlEntity urlEntity = urlRepository.findByShortUrl(shotUrl)
                 .orElseThrow(() -> new IllegalArgumentException("Url with short url = " + shotUrl + " not found"));
 
+        if(urlEntity.getExpirationDate().isBefore(LocalDate.now())){
+            throw new IllegalArgumentException("Link is inactive");
+        }
+
         urlEntity.setVisitCount(urlEntity.getVisitCount() + 1);
         urlEntity.setExpirationDate(LocalDate.now().plusDays(VALID_DAYS));
 

@@ -54,6 +54,8 @@
         select.form-control {
             font-size: 12px;
         }
+
+
     </style>
     <title>Panda ShortLinks</title>
     <script>
@@ -65,6 +67,8 @@
           // Змінюємо URL сторінки без перезавантаження
           window.history.pushState({}, '', newUrl);
         };
+
+
     </script>
 </head>
 
@@ -143,6 +147,7 @@
                     </tr>
                     </thead>
 
+                    <!-- Active links-->
                     <div class="form-group mb-2" th:each="userUrl : ${userUrls}">
                         <tbody>
                         <td align="center"><span><img src="/images/pandaeyes2.png" alt="Eye" width="40"
@@ -185,6 +190,54 @@
                                                 </li>
                                                 <li><a class="dropdown-item" href="#"
                                                        th:href="@{/V2/urls/prolongation/{id}(id=${userUrl.id})}">Prolongation</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                        </tbody>
+                    </div>
+
+                    <!-- Inactive links-->
+                    <div class="form-group mb-2" th:each="userUrlInactive : ${userUrlsInactive}">
+                        <tbody>
+                        <td align="center"><span><img src="/images/pandaeyes2.png" alt="Eye" width="40"
+                                                      height="20"/></span>
+                            <div th:text="${userUrlInactive.visitCount}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${userUrlInactive.shortUrl}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${userUrlInactive.url}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${userUrlInactive.description}"></div>
+                        </td>
+                        <td>
+                            <div th:text="${userUrlInactive.expirationDate}"></div>
+                        </td>
+                        <td>
+                            <form>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="btn-group">
+                                            <button class="form-control" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                Choose action
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"
+                                                       th:href="@{/V2/urls/edit/{id}(id=${userUrlInactive.id})}">Edit</a>
+                                                </li>
+                                                <li><a class="dropdown-item"
+                                                       href="#"
+                                                       th:href="@{/V2/urls/delete/{id}(id=${userUrlInactive.id})}">Delete</a>
+                                                </li>
+                                                <li><a class="dropdown-item" href="#"
+                                                       th:href="@{/V2/urls/prolongation/{id}(id=${userUrlInactive.id})}">Prolongation</a>
                                                 </li>
                                             </ul>
                                         </div>
