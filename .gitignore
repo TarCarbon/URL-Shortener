@@ -1,6 +1,8 @@
 .gradle
 .idea
 .build
+.htmlReport
 gradle
 gradlew.bat
 settings.gradle
+/htmlReport/
