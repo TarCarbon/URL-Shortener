@@ -98,7 +98,7 @@ class UrlWebControllerTest {
         ModelAndView result = urlWebController.getAllInactiveLinks();
 
         assertEquals("all-guest", result.getViewName());
-        assertTrue(result.getModel().containsKey("userUrls"));
+        assertTrue(result.getModel().containsKey("userUrlsInactive"));
         assertEquals(0, urlService.getInactiveUrl().size());
     }
 
@@ -234,7 +234,7 @@ class UrlWebControllerTest {
         assertNotNull(usernameAttribute);
         assertEquals("testadmin", usernameAttribute);
 
-        assertTrue(model.getModel().containsKey("userUrls"));
+        assertTrue(model.getModel().containsKey("userUrlsInactive"));
         assertEquals(0, urlService.getInactiveUrlUser("testadmin").size());
     }
 
