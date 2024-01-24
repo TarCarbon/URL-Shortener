@@ -85,11 +85,18 @@ public class UserWebControllerTest {
         userRequest.setUsername("user");
         userRequest.setPassword("Password123");
 
+
+        BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "CreateUserRequest");
+        bindingResult.rejectValue("user", "user.exist", "user name or password not corrected");
+
         this.mockMvc.perform(post("/V2/user/register")
                         .contentType("application/json")
                         .param("register", "true")
                         .content(objectMapper.writeValueAsString(userRequest)))
                 .andExpect(status().isOk());
+
+        ModelAndView model = userWebController.postRegisterUser(userRequest, bindingResult, true);
+      
     }
 
     @Test
@@ -100,13 +107,21 @@ public class UserWebControllerTest {
 
         BindingResult bindingResult = new MapBindingResult(Collections.emptyMap(), "CreateUserRequest");
         bindingResult.rejectValue("user", "user.exist", "user name or password not corrected");
-        mockMvc.perform(post("/V2/user/register?register=true")
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/V2/user/register?register=true")
                         .param("register", "true")
                         .contentType("application/x-www-form-urlencoded")
+                        .content("{" +
+                                "\"username\": \"testUser\"," +
+                                "\"password\": \"testPassword123\"" +
+                                "}")
                         .flashAttr("userRequest", userRequest)
                         .flashAttr("org.springframework.validation.BindingResult.userRequest", bindingResult)
                 )
-                .andExpect(status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+
+
     }
 
     @Test
